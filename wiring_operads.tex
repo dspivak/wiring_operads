@@ -1,0 +1,258 @@
+\documentclass[11pt, article, oneside]{memoir}
+
+\settrims{0pt}{0pt} % page and stock same size
+\settypeblocksize{*}{36pc}{*} % {height}{width}{ratio}
+\setlrmargins{*}{*}{1} % {spine}{edge}{ratio}
+\setulmarginsandblock{1in}{1in}{*} % height of typeblock computed
+\setheadfoot{\onelineskip}{2\onelineskip} % {headheight}{footskip}
+\setheaderspaces{*}{1.5\onelineskip}{*} % {headdrop}{headsep}{ratio}
+\checkandfixthelayout
+
+
+
+\usepackage{mathtools}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{stmaryrd}
+\usepackage{newpxtext}
+\usepackage[utf8]{inputenc}
+\usepackage[varg,bigdelims]{newpxmath}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{tikz}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{mathpartir}
+\usepackage[bookmarks=true, colorlinks=true, linkcolor=blue!50!red, citecolor=orange,
+pdfencoding=unicode]{hyperref}
+
+\usepackage[capitalize]{cleveref}
+  \newcommand{\creflastconjunction}{, and\nobreakspace}%Make cleveref use serial comma
+
+\usepackage[backend=biber,style = alphabetic]{biblatex}
+  \addbibresource{Library20171004.bib}
+
+
+
+\usetikzlibrary{
+	cd,
+	math,
+	decorations.markings,
+	positioning,
+	arrows.meta,
+	shapes,
+	calc,
+	fit,
+	quotes,
+	intersections}
+\hypersetup{final}
+
+\tikzset{
+   oriented WD/.style={%everything after equals replaces "oriented WD" in key.
+      every to/.style={out=0,in=180,draw},
+      label/.style={
+         font=\everymath\expandafter{\the\everymath\scriptstyle},
+         inner sep=0pt,
+         node distance=2pt and -2pt},
+      semithick,
+      node distance=1 and 1,
+      decoration={markings, mark=at position .5 with {\arrow{stealth};}},
+      ar/.style={postaction={decorate}},
+      execute at begin picture={\tikzset{
+         x=\bbx, y=\bby,
+         every fit/.style={inner xsep=\bbx, inner ysep=\bby}}}
+      },
+   bbx/.store in=\bbx,
+   bbx = 1.5cm,
+   bby/.store in=\bby,
+   bby = 1.75ex,
+   bb port sep/.store in=\bbportsep,
+   bb port sep=2,
+   % bb wire sep/.store in=\bbwiresep,
+   % bb wire sep=1.75ex,
+   bb port length/.store in=\bbportlen,
+   bb port length=4pt,
+   bb min width/.store in=\bbminwidth,
+   bb min width=1cm,
+   bb rounded corners/.store in=\bbcorners,
+   bb rounded corners=2pt,
+   bb small/.style={bb port sep=1, bb port length=2.5pt, bbx=.4cm, bb min width=.4cm, bby=.7ex},
+   bb/.code 2 args={%When you see this key, run the code below:
+      \pgfmathsetlengthmacro{\bbheight}{\bbportsep * (max(#1,#2)+1) * \bby}
+      \pgfkeysalso{draw,minimum height=\bbheight,minimum width=\bbminwidth,outer sep=0pt,
+         rounded corners=\bbcorners,thick,
+         prefix after command={\pgfextra{\let\fixname\tikzlastnode}},
+         append after command={\pgfextra{\draw
+            \ifnum #1=0{} \else foreach \i in {1,...,#1} {
+               ($(\fixname.north west)!{\i/(#1+1)}!(\fixname.south west)$) +(-\bbportlen,0) 
+coordinate (\fixname_in\i) -- +(\bbportlen,0) coordinate (\fixname_in\i')}\fi %Define the endpoints 
+%of tickmarks
+            \ifnum #2=0{} \else foreach \i in {1,...,#2} {
+               ($(\fixname.north east)!{\i/(#2+1)}!(\fixname.south east)$) +(-\bbportlen,0) 
+coordinate (\fixname_out\i') -- +(\bbportlen,0) coordinate (\fixname_out\i)}\fi;
+         }}}
+   },
+   bb name/.style={append after command={\pgfextra{\node[anchor=north] at (\fixname.north) {#1};}}}
+}
+
+
+\tikzset{
+	unoriented WD/.style={
+		every to/.style={draw},
+		shorten <=-\portlen, shorten >=-\portlen,
+		label distance=-2pt,
+		thick,
+		node distance=\spacing,
+		execute at begin picture={\tikzset{
+			x=\spacing, y=\spacing}}
+		},
+	pack size/.store in=\psize,
+	pack size = 8pt,
+	spacing/.store in=\spacing,
+	spacing = \psize,
+	link size/.store in=\lsize,
+	link size = 2pt,
+	port len/.store in=\portlen,
+	port len = \lsize,
+	pack color/.store in=\pcolor,
+	pack color=blue,
+	surround sep/.store in=\ssep,
+	surround sep=\psize,
+	link/.style={
+		circle,
+		anchor=center,
+		draw=black,
+		fill=black,
+		inner sep=0pt,
+		minimum size=\lsize
+	},
+	pack/.style={
+		circle,
+		anchor=center,
+		draw = \pcolor!50!black,
+		fill = \pcolor!20,
+		inner sep = .25*\psize,
+		minimum size = \psize
+	},
+	outer pack/.style={
+		ellipse,
+		anchor=center,
+		draw,
+		inner sep=\ssep,
+		color=\pcolor!50!black,
+	},
+	intermediate pack/.style={
+		ellipse,
+		anchor=center,
+		dashed,
+		draw,
+		inner sep=\ssep,
+		color=\pcolor!50!black,
+	},
+}
+
+
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[chapter] %change [] to chapter if we want to change global numbering
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{conjecture}[theorem]{Conjecture}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{construction}[theorem]{Construction}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{axiom}{Axiom}
+\newtheorem*{axiom*}{Axiom}
+
+\theoremstyle{remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{warning}[theorem]{Warning}
+
+\setcounter{axiom}{-1}
+
+% Renewed commands
+
+\renewcommand{\ss}{\subseteq}
+
+% Macros %
+\newcommand{\const}[1]{\mathtt{#1}}
+\newcommand{\Set}[1]{\mathrm{#1}}
+\newcommand{\cat}[1]{\mathcal{#1}}
+\newcommand{\Cat}[1]{\mathbf{#1}}
+\newcommand{\fun}[1]{\mathit{#1}}
+\newcommand{\Fun}[1]{\mathsf{#1}}
+
+\DeclareMathOperator{\id}{id}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\Mor}{Mor}
+\DeclareMathOperator*{\colim}{colim}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\Ob}{Ob}
+
+\newcommand{\cocolon}{:\!}
+\newcommand{\iso}{\cong}
+\newcommand{\To}[1]{\xrightarrow{#1}}
+\newcommand{\Too}[1]{\xrightarrow{\;\;#1\;\;}}
+\newcommand{\from}{\leftarrow}
+\newcommand{\From}[1]{\xleftarrow{#1}}
+\newcommand{\Fromm}[1]{\xleftarrow{\;\;#1\;\;}}
+\newcommand{\surj}{\twoheadrightarrow}
+\newcommand{\inj}{\rightarrowtail}
+
+\newcommand{\tn}[1]{\textnormal{#1}}
+\newcommand{\ol}[1]{\overline{#1}}
+\newcommand{\ul}[1]{\underline{#1}}
+\newcommand{\wt}[1]{\widetilde{#1}}
+
+\newcommand{\Psh}[1]{\Fun{Psh}(#1)}
+
+
+\newcommand{\op}{^\tn{op}}
+
+\newcommand{\erase}[1]{}
+\newcommand{\dtodo}[2][]{\todo[linecolor=white, backgroundcolor=white, bordercolor=gray, #1]{#2}}
+\newcommand{\stodo}[2][]{\todo[color=red!30, #1]{#2}}
+
+
+
+\setlist{nosep}
+\linespread{1.2}
+\allowdisplaybreaks
+\setsecnumdepth{subsection}
+\settocdepth{section}
+\setlength{\parindent}{15pt}
+
+%------------ Document ------------%
+\begin{document}
+
+
+\title{Wiring operads}
+
+\author{
+  Sophie Raynor
+  \and 
+  David I. Spivak\thanks{The work presented here was supported by AFOSR grants 
+FA9550--14--1--0031 and FA9550--17--1--0058.}
+}
+\date{}
+
+\maketitle
+
+%-------- Chapter --------%
+\chapter{Introduction}
+
+%-------- Chapter --------%
+\chapter{Wiring operads}
+
+%-------- Chapter --------%
+\chapter{Examples}
+
+
+\printbibliography
+\printindex
+
+
+\end{document}
