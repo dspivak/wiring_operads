@@ -46,109 +46,123 @@ pdfencoding=unicode]{hyperref}
 	intersections}
 \hypersetup{final}
 
-\tikzset{
-   oriented WD/.style={%everything after equals replaces "oriented WD" in key.
-      every to/.style={out=0,in=180,draw},
-      label/.style={
-         font=\everymath\expandafter{\the\everymath\scriptstyle},
-         inner sep=0pt,
-         node distance=2pt and -2pt},
-      semithick,
-      node distance=1 and 1,
-      decoration={markings, mark=at position .5 with {\arrow{stealth};}},
-      ar/.style={postaction={decorate}},
-      execute at begin picture={\tikzset{
-         x=\bbx, y=\bby,
-         every fit/.style={inner xsep=\bbx, inner ysep=\bby}}}
-      },
-   bbx/.store in=\bbx,
-   bbx = 1.5cm,
-   bby/.store in=\bby,
-   bby = 1.75ex,
-   bb port sep/.store in=\bbportsep,
-   bb port sep=2,
-   % bb wire sep/.store in=\bbwiresep,
-   % bb wire sep=1.75ex,
-   bb port length/.store in=\bbportlen,
-   bb port length=4pt,
-   bb min width/.store in=\bbminwidth,
-   bb min width=1cm,
-   bb rounded corners/.store in=\bbcorners,
-   bb rounded corners=2pt,
-   bb small/.style={bb port sep=1, bb port length=2.5pt, bbx=.4cm, bb min width=.4cm, bby=.7ex},
-   bb/.code 2 args={%When you see this key, run the code below:
-      \pgfmathsetlengthmacro{\bbheight}{\bbportsep * (max(#1,#2)+1) * \bby}
-      \pgfkeysalso{draw,minimum height=\bbheight,minimum width=\bbminwidth,outer sep=0pt,
-         rounded corners=\bbcorners,thick,
-         prefix after command={\pgfextra{\let\fixname\tikzlastnode}},
-         append after command={\pgfextra{\draw
-            \ifnum #1=0{} \else foreach \i in {1,...,#1} {
-               ($(\fixname.north west)!{\i/(#1+1)}!(\fixname.south west)$) +(-\bbportlen,0) 
-coordinate (\fixname_in\i) -- +(\bbportlen,0) coordinate (\fixname_in\i')}\fi %Define the endpoints 
-%of tickmarks
-            \ifnum #2=0{} \else foreach \i in {1,...,#2} {
-               ($(\fixname.north east)!{\i/(#2+1)}!(\fixname.south east)$) +(-\bbportlen,0) 
-coordinate (\fixname_out\i') -- +(\bbportlen,0) coordinate (\fixname_out\i)}\fi;
-         }}}
-   },
-   bb name/.style={append after command={\pgfextra{\node[anchor=north] at (\fixname.north) {#1};}}}
-}
+  \tikzset{
+     oriented WD/.style={%everything after equals replaces "oriented WD" in key.
+        every to/.style={out=0,in=180,draw},
+        label/.style={
+           font=\everymath\expandafter{\the\everymath\scriptstyle},
+           inner sep=0pt,
+           node distance=2pt and -2pt},
+        semithick,
+        node distance=1 and 1,
+        decoration={markings, mark=at position \stringdecpos with \stringdec},
+        ar/.style={postaction={decorate}},
+        execute at begin picture={\tikzset{
+           x=\bbx, y=\bby,
+           every fit/.style={inner xsep=\bbx, inner ysep=\bby}}}
+        },
+     string decoration/.store in=\stringdec,
+     string decoration={\arrow{stealth};},
+     string decoration pos/.store in=\stringdecpos,
+     string decoration pos=.7,
+     bbx/.store in=\bbx,
+     bbx = 1.5cm,
+     bby/.store in=\bby,
+     bby = 1.5ex,
+     bb port sep/.store in=\bbportsep,
+     bb port sep=1.5,
+     % bb wire sep/.store in=\bbwiresep,
+     % bb wire sep=1.75ex,
+     bb port length/.store in=\bbportlen,
+     bb port length=4pt,
+     bb penetrate/.store in=\bbpenetrate,
+     bb penetrate=0,
+     bb min width/.store in=\bbminwidth,
+     bb min width=1cm,
+     bb rounded corners/.store in=\bbcorners,
+     bb rounded corners=2pt,
+     bb small/.style={bb port sep=1, bb port length=2.5pt, bbx=.4cm, bb min width=.4cm, 
+bby=.7ex},
+		 bb medium/.style={bb port sep=1, bb port length=2.5pt, bbx=.4cm, bb min width=.4cm, 
+bby=.9ex},
+     bb/.code 2 args={%When you see this key, run the code below:
+        \pgfmathsetlengthmacro{\bbheight}{\bbportsep * (max(#1,#2)+1) * \bby}
+        \pgfkeysalso{draw,minimum height=\bbheight,minimum width=\bbminwidth,outer 
+sep=0pt,
+           rounded corners=\bbcorners,thick,
+           prefix after command={\pgfextra{\let\fixname\tikzlastnode}},
+           append after command={\pgfextra{\draw
+              \ifnum #1=0{} \else foreach \i in {1,...,#1} {
+                 ($(\fixname.north west)!{\i/(#1+1)}!(\fixname.south west)$) +(-
+\bbportlen,0) 
+  coordinate (\fixname_in\i) -- +(\bbpenetrate,0) coordinate (\fixname_in\i')}\fi 
+  %Define the endpoints of tickmarks
+              \ifnum #2=0{} \else foreach \i in {1,...,#2} {
+                 ($(\fixname.north east)!{\i/(#2+1)}!(\fixname.south east)$) +(-
+\bbpenetrate,0) 
+  coordinate (\fixname_out\i') -- +(\bbportlen,0) coordinate (\fixname_out\i)}\fi;
+           }}}
+     },
+     bb name/.style={append after command={\pgfextra{\node[anchor=north] at 
+(\fixname.north) {#1};}}}
+  }
 
 
-\tikzset{
-	unoriented WD/.style={
-		every to/.style={draw},
-		shorten <=-\portlen, shorten >=-\portlen,
-		label distance=-2pt,
-		thick,
-		node distance=\spacing,
-		execute at begin picture={\tikzset{
-			x=\spacing, y=\spacing}}
-		},
-	pack size/.store in=\psize,
-	pack size = 8pt,
-	spacing/.store in=\spacing,
-	spacing = \psize,
-	link size/.store in=\lsize,
-	link size = 2pt,
-	port len/.store in=\portlen,
-	port len = \lsize,
-	pack color/.store in=\pcolor,
-	pack color=blue,
-	surround sep/.store in=\ssep,
-	surround sep=\psize,
-	link/.style={
-		circle,
-		anchor=center,
-		draw=black,
-		fill=black,
-		inner sep=0pt,
-		minimum size=\lsize
-	},
-	pack/.style={
-		circle,
-		anchor=center,
-		draw = \pcolor!50!black,
-		fill = \pcolor!20,
-		inner sep = .25*\psize,
-		minimum size = \psize
-	},
-	outer pack/.style={
-		ellipse,
-		anchor=center,
-		draw,
-		inner sep=\ssep,
-		color=\pcolor!50!black,
-	},
-	intermediate pack/.style={
-		ellipse,
-		anchor=center,
-		dashed,
-		draw,
-		inner sep=\ssep,
-		color=\pcolor!50!black,
-	},
-}
+  \tikzset{
+  	unoriented WD/.style={
+  		every to/.style={draw},
+  		shorten <=-\penetration, shorten >=-\penetration,
+  		label distance=-2pt,
+  		thick,
+  		node distance=\spacing,
+  		execute at begin picture={\tikzset{
+  			x=\spacing, y=\spacing}}
+  		},
+  	pack size/.store in=\psize,
+  	pack size = 8pt,
+  	spacing/.store in=\spacing,
+  	spacing = 8pt,
+  	link size/.store in=\lsize,
+  	link size = 2pt,
+		penetration/.store in=\penetration,
+		penetration = 2pt,
+  	pack color/.store in=\pcolor,
+  	pack color = blue,
+  	pack inside color/.store in=\picolor,
+  	pack inside color=blue!20,
+  	pack outside color/.store in=\pocolor,
+  	pack outside color=blue!50!black,
+  	surround sep/.store in=\ssep,
+  	surround sep=8pt,
+  	link/.style={
+  		circle, 
+  		draw=black, 
+  		fill=black,
+  		inner sep=0pt, 
+  		minimum size=\lsize
+  	},
+  	pack/.style={
+  		circle, 
+  		draw = \pocolor, 
+  		fill = \picolor,
+  		inner sep = .25*\psize,
+  		minimum size = \psize
+  	},
+  	outer pack/.style={
+  		ellipse, 
+  		draw,
+  		inner sep=\ssep,
+  		color=\pocolor,
+  	},
+  	intermediate pack/.style={
+  		ellipse,
+  		dashed, 
+  		draw,
+  		inner sep=\ssep,
+  		color=\pocolor,
+  	},
+  }
+
 
 
 
@@ -243,6 +257,64 @@ FA9550--14--1--0031 and FA9550--17--1--0058.}
 
 %-------- Chapter --------%
 \chapter{Introduction}
+
+There are many sorts of categorical structures---categories, monoidal categories, traced monoidal categories, hypergraph categories, operads, etc.---and each has an associated sort of string diagram. A category with said structure, call it $\cat{C}$, can ``interpret'' such a string diagram as a morphism in $\cat{C}$. For example, the four sorts of categorical structures listed above can interpret the following sorts of morphisms
+\[
+\begin{tikzpicture}
+\begin{scope}[oriented WD, bb port sep=1, bb port length=2.5pt, bb min width=.4cm, bby=.3cm, inner xsep=.2cm, font=\small, text height=1.5ex, text depth=1ex, x=.5cm, y=.3cm]
+	\node[bb={1}{1}] (Catf) {$f$};
+	\node[bb={1}{1}, right=1 of Catf] (Catg) {$g$};
+	\node[bb={0}{0}, fit=(Catf) (Catg)] (Cat) {};
+	\node[coordinate] at (Cat.west|-Catf_in1) (Cat_in1) {};
+	\node[coordinate] at (Cat.east|-Catg_out1) (Cat_out1) {};
+	\draw (Cat_in1) -- (Catf_in1);
+	\draw (Catf_out1) -- (Catg_in1);
+	\draw (Catg_out1) -- (Cat_out1);
+%
+	\node[bb={1}{2}, above right=-1.5 and 4 of Catf] (Monf) {$f$};
+	\node[bb={2}{1}, below right=-1 and 1 of Monf] (Mong) {$g$};
+	\node[bb={0}{0}, fit=(Monf) (Mong)] (Mon) {};
+	\node[coordinate] at (Mon.west|-Monf_in1) (Mon_in1) {};
+	\node[coordinate] at (Mon.west|-Mong_in2) (Mon_in2) {};
+	\node[coordinate] at (Mon.east|-Monf_out1) (Mon_out1) {};
+	\node[coordinate] at (Mon.east|-Mong_out1) (Mon_out2) {};
+	\draw (Mon_in1) -- (Monf_in1);
+	\draw (Monf_out1) -- (Mon_out1);
+	\draw (Monf_out2) to (Mong_in1);
+	\draw (Mon_in2) -- (Mong_in2);
+	\draw (Mong_out1) -- (Mon_out2);
+%
+	\node[bb={2}{1}, right= 5 of Monf] (Trf) {$f$};
+	\node[bb={2}{2}, below right=-1 and 1 of Trf] (Trg) {$g$};
+	\node[bb={0}{0}, fit={($(Trf.north west)+(-1,1)$) ($(Trg.south east)+(1,-1)$)}] (Tr) {};
+	\node[coordinate] at (Tr.west|-Trf_in2) (Tr_in1) {};
+	\node[coordinate] at (Tr.west|-Trg_in2) (Tr_in2) {};
+	\node[coordinate] at (Tr.east|-Trf_out1) (Tr_out1) {};
+	\node[coordinate] at (Tr.east|-Trg_out2) (Tr_out2) {};
+	\draw (Tr_in1) -- (Trf_in2);
+	\draw (Trf_out1) to (Trg_in1);
+	\draw (Tr_in2) -- (Trg_in2);
+	\draw (Trg_out2) -- (Tr_out2);
+	\draw let \p1=(Trg.east), \p2=(Trf.north west), \n1=\bbportlen, \n2=\bby in
+		(Trg_out1) to[in=0] (\x1+\n1,\y2+\n2) -- (\x2-\n1,\y2+\n2) to[out=180] (Trf_in1);
+%
+\end{scope}
+\begin{scope}[penetration=0, unoriented WD, pack outside color=black, pack inside color=white, font=\small, text height=1.5ex, text depth=1ex]
+	\node[pack, right=3 of Trf] (Hypf) {$f$};
+	\node[pack, below right=0 and .5 of Hypf] (Hypg) {$g$};
+	\node[outer pack, inner sep=5pt, fit=(Hypf) (Hypg)] (Hyp) {};
+	\node[coordinate] at ($(Hypg.-30)!.5!(Hyp.-30)$) (link) {};
+	\draw (Hypf) to[bend left] (Hypg);
+	\draw (Hypf) to[bend right] (Hypg);
+	\draw (Hypg) -- (link);
+	\draw[shorten >= -2pt] (link) -- (Hyp.-20);
+	\draw[shorten >= -2pt] (link) -- (Hyp.-40);
+	\draw[shorten >= -2pt] (Hypf) -- (Hyp);
+\end{scope}
+\end{tikzpicture}
+\]
+
+
 
 %-------- Chapter --------%
 \chapter{Wiring operads}
