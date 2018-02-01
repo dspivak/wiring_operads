@@ -234,7 +234,7 @@ sep=0pt,
 
 
 \setlist{nosep}
-\linespread{1.2}
+\linespread{1.1}
 \allowdisplaybreaks
 \setsecnumdepth{subsection}
 \settocdepth{section}
@@ -249,7 +249,7 @@ sep=0pt,
 \author{
   Sophie Raynor
   \and 
-  David I. Spivak\thanks{The work presented here was supported by AFOSR grants 
+  David I. Spivak\thanks{Spivak was supported by AFOSR grants 
 FA9550--14--1--0031 and FA9550--17--1--0058.}
 }
 \date{}
@@ -259,7 +259,8 @@ FA9550--14--1--0031 and FA9550--17--1--0058.}
 %-------- Chapter --------%
 \chapter{Introduction}
 
-There are many sorts of categorical structures---categories, monoidal categories, traced monoidal categories, hypergraph categories, operads, etc.---and each has an associated sort of string diagram. A category with said structure, call it $\cat{C}$, can ``interpret'' such a string diagram as a way of assembling new morphisms from old in $\cat{C}$. For example, the five sorts of categorical structures listed above can interpret the following sorts of string diagrams:
+There are many sorts of categorical structures---categories, monoidal categories, traced monoidal categories, hypergraph categories, operads, etc.---and each has an associated sort of wiring diagram. A category with said structure, call it $\cat{C}$, can ``interpret'' such a wiring diagram as a way of assembling new morphisms from old in $\cat{C}$. For example, the five sorts of categorical structures listed above can interpret the following sorts of wiring diagrams:%
+\footnote{What we call wiring diagrams are strongly related to much more well-known concept called \emph{string diagrams}. The difference is that string diagrams do not include the exterior box, the composite, as an explicit part. In the work that follows, this difference is important, because the exterior box and the interior boxes have the same status: they are all simply objects in the wiring operad. We also prefer the term ``wiring'', because the term ``string'' also has other interpretations in the intersection of math and physics.}
 \[
 \begin{tikzpicture}
 \begin{scope}[font=\footnotesize, text height=1.5ex, text depth=.5ex]
@@ -317,7 +318,7 @@ There are many sorts of categorical structures---categories, monoidal categories
   	\node[and gate, draw, right=2.5 of Hypf] (Opdf) {$f$};
   	\node[and gate, draw, below right=0 and 0.5 of Opdf] (Opdg) {$g$};
 		\node[and gate, inner sep=1pt, draw, fit=(Opdf) (Opdg)] (Opd) {};
-		\draw (Opd.input 1|-Opdf.input 1) to (Opdf.input 1);
+		\draw (Opd.input 1|-Opdf.west) to (Opdf.west);
 		\draw (Opd.input 1|-Opdg.input 2) to (Opdg.input 2);
 		\draw (Opdf.output) to (Opdg.input 1);
 		\draw (Opdg.output) to (Opd.output);
@@ -330,9 +331,9 @@ There are many sorts of categorical structures---categories, monoidal categories
 \end{scope}
 \end{tikzpicture}
 \]
-In each case, a morphism in $\cat{C}$ is being assembled from two morphisms $f,g\in\cat{C}$, which we might call \emph{components}. String diagrams in general can assemble a morphism from any number of component morphisms; for example the following build a morphism from three components:
+In each case, a morphism in $\cat{C}$ is being assembled from two morphisms $f,g\in\cat{C}$, which we might call \emph{components}. String diagrams in general can assemble a composite morphism from any number of component morphisms; for example the following build a composite morphism from three components:
 \[
-\begin{tikzpicture}[oriented WD, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=0, bb port sep=1, font=\footnotesize, text height=1.5ex, text depth=.5ex]
+\begin{tikzpicture}[oriented WD, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=0, bb port sep=.8, font=\footnotesize, text height=1.5ex, text depth=.5ex]
 	\node[bb={1}{1}] (X1) {$f$};
   	\node[bb={1}{1}, right=of X1] (X2) {$g$};
 	\node[bb={1}{1}, right=of X2] (X3) {$h$};
@@ -342,7 +343,7 @@ In each case, a morphism in $\cat{C}$ is being assembled from two morphisms $f,g
 	\draw (X2_out1) to (X3_in1);
 	\draw (X3_out1) to (Y_out1');
 %
-	\node[bb={1}{2}, above right=-1 and 5 of X3] (A) {$f$};
+	\node[bb={1}{2}, above right=-1 and 6 of X3] (A) {$f$};
 	\node[bb={2}{2}, below right=-1 and 1 of A] (B) {$g$};
 	\node[bb={2}{1}, above right=-1 and 1 of B] (C) {$h$};
 	\node[bb={0}{0}, fit=(A) (B) (C)] (Y) {};
@@ -355,6 +356,14 @@ In each case, a morphism in $\cat{C}$ is being assembled from two morphisms $f,g
 	\draw (B_out2) to (B_out2-|Y.east);
 \end{tikzpicture}
 \]
+The first composite can be denoted $h\circ g\circ f$; technically it should be either $(h\circ g)\circ f$ or $h\circ (g\circ f)$, but they are equal in any category. The wiring diagram ``abstracts away the difference''. The second composite is more complicated to write as a wiring of text---because it is inherently 2-dimensional compared to text which is 1-dimensional---but it can be denoted $(h\otimes\id)\circ(\id\otimes g)\circ(f\otimes\id)$.
+
+Operads have been proposed as a way of organizing the various sorts of wiring diagrams \cite{Spivak:2013b,Rupel.Spivak:2013a}. An operad morphism has many inputs and one output, and these correspond to a wiring diagram assembling many components to make one composite. For example, it was shown in \cite{Spivak.Schultz.Rupel:2016a} that the operad for traced monoidal categories is $\Cat{Cob}$, the operad of oriented 1-dimensional cobordisms, and it was shown in \cite{Fong?} that the operad for hypergraph categories is $\Cat{Cospan}$.
+
+While the operad formalism neatly captures wiring composition, and can thus be used to define the above sorts of categorical structures as algebras, there is a technical annoyance that emerges in each case: the operad handles morphisms, but not objects in these categories. The objects must be ``baked in'' to the operad as string labels. Thus it is not the case that traced monoidal categories are algebras on $\Cat{Cob}$; it is the case that for any generating set $\Lambda$ of objects, traced-monoidal-categories-whose-object-set-is-generated-by-$\Lambda$ are algebras on $\Cat{Cob}/\Lambda$. The latter is a mouthful, and is not entirely pleasing.
+
+In this paper we remedy this by following the work of \cite{Joyal.Kock} and \cite{Raynor}. DETAILS.
+
 
 
 %-------- Chapter --------%
