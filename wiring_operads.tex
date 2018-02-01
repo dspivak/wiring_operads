@@ -41,6 +41,7 @@ pdfencoding=unicode]{hyperref}
 	arrows.meta,
 	shapes,
 	calc,
+	circuits.logic.US,
 	fit,
 	quotes,
 	intersections}
@@ -258,62 +259,102 @@ FA9550--14--1--0031 and FA9550--17--1--0058.}
 %-------- Chapter --------%
 \chapter{Introduction}
 
-There are many sorts of categorical structures---categories, monoidal categories, traced monoidal categories, hypergraph categories, operads, etc.---and each has an associated sort of string diagram. A category with said structure, call it $\cat{C}$, can ``interpret'' such a string diagram as a morphism in $\cat{C}$. For example, the four sorts of categorical structures listed above can interpret the following sorts of morphisms
+There are many sorts of categorical structures---categories, monoidal categories, traced monoidal categories, hypergraph categories, operads, etc.---and each has an associated sort of string diagram. A category with said structure, call it $\cat{C}$, can ``interpret'' such a string diagram as a way of assembling new morphisms from old in $\cat{C}$. For example, the five sorts of categorical structures listed above can interpret the following sorts of string diagrams:
 \[
 \begin{tikzpicture}
-\begin{scope}[oriented WD, bb port sep=1, bb port length=2.5pt, bb min width=.4cm, bby=.3cm, inner xsep=.2cm, font=\small, text height=1.5ex, text depth=1ex, x=.5cm, y=.3cm]
-	\node[bb={1}{1}] (Catf) {$f$};
-	\node[bb={1}{1}, right=1 of Catf] (Catg) {$g$};
-	\node[bb={0}{0}, fit=(Catf) (Catg)] (Cat) {};
-	\node[coordinate] at (Cat.west|-Catf_in1) (Cat_in1) {};
-	\node[coordinate] at (Cat.east|-Catg_out1) (Cat_out1) {};
-	\draw (Cat_in1) -- (Catf_in1);
-	\draw (Catf_out1) -- (Catg_in1);
-	\draw (Catg_out1) -- (Cat_out1);
-%
-	\node[bb={1}{2}, above right=-1.5 and 4 of Catf] (Monf) {$f$};
-	\node[bb={2}{1}, below right=-1 and 1 of Monf] (Mong) {$g$};
-	\node[bb={0}{0}, fit=(Monf) (Mong)] (Mon) {};
-	\node[coordinate] at (Mon.west|-Monf_in1) (Mon_in1) {};
-	\node[coordinate] at (Mon.west|-Mong_in2) (Mon_in2) {};
-	\node[coordinate] at (Mon.east|-Monf_out1) (Mon_out1) {};
-	\node[coordinate] at (Mon.east|-Mong_out1) (Mon_out2) {};
-	\draw (Mon_in1) -- (Monf_in1);
-	\draw (Monf_out1) -- (Mon_out1);
-	\draw (Monf_out2) to (Mong_in1);
-	\draw (Mon_in2) -- (Mong_in2);
-	\draw (Mong_out1) -- (Mon_out2);
-%
-	\node[bb={2}{1}, right= 5 of Monf] (Trf) {$f$};
-	\node[bb={2}{2}, below right=-1 and 1 of Trf] (Trg) {$g$};
-	\node[bb={0}{0}, fit={($(Trf.north west)+(-1,1)$) ($(Trg.south east)+(1,-1)$)}] (Tr) {};
-	\node[coordinate] at (Tr.west|-Trf_in2) (Tr_in1) {};
-	\node[coordinate] at (Tr.west|-Trg_in2) (Tr_in2) {};
-	\node[coordinate] at (Tr.east|-Trf_out1) (Tr_out1) {};
-	\node[coordinate] at (Tr.east|-Trg_out2) (Tr_out2) {};
-	\draw (Tr_in1) -- (Trf_in2);
-	\draw (Trf_out1) to (Trg_in1);
-	\draw (Tr_in2) -- (Trg_in2);
-	\draw (Trg_out2) -- (Tr_out2);
-	\draw let \p1=(Trg.east), \p2=(Trf.north west), \n1=\bbportlen, \n2=\bby in
-		(Trg_out1) to[in=0] (\x1+\n1,\y2+\n2) -- (\x2-\n1,\y2+\n2) to[out=180] (Trf_in1);
-%
-\end{scope}
-\begin{scope}[penetration=0, unoriented WD, pack outside color=black, pack inside color=white, font=\small, text height=1.5ex, text depth=1ex]
-	\node[pack, right=3 of Trf] (Hypf) {$f$};
-	\node[pack, below right=0 and .5 of Hypf] (Hypg) {$g$};
-	\node[outer pack, inner sep=5pt, fit=(Hypf) (Hypg)] (Hyp) {};
-	\node[coordinate] at ($(Hypg.-30)!.5!(Hyp.-30)$) (link) {};
-	\draw (Hypf) to[bend left] (Hypg);
-	\draw (Hypf) to[bend right] (Hypg);
-	\draw (Hypg) -- (link);
-	\draw[shorten >= -2pt] (link) -- (Hyp.-20);
-	\draw[shorten >= -2pt] (link) -- (Hyp.-40);
-	\draw[shorten >= -2pt] (Hypf) -- (Hyp);
+\begin{scope}[font=\footnotesize, text height=1.5ex, text depth=.5ex]
+  \begin{scope}[oriented WD, bb port sep=1, bb port length=2.5pt, bb min width=.4cm, bby=.2cm, inner xsep=.2cm, x=.5cm, y=.3cm]
+  	\node[bb={1}{1}] (Catf) {$f$};
+  	\node[bb={1}{1}, right=1 of Catf] (Catg) {$g$};
+  	\node[bb={0}{0}, fit=(Catf) (Catg)] (Cat) {};
+  	\node[coordinate] at (Cat.west|-Catf_in1) (Cat_in1) {};
+  	\node[coordinate] at (Cat.east|-Catg_out1) (Cat_out1) {};
+  	\draw (Cat_in1) -- (Catf_in1);
+  	\draw (Catf_out1) -- (Catg_in1);
+  	\draw (Catg_out1) -- (Cat_out1);
+  %
+  	\node[bb={1}{2}, above right=-1.5 and 4 of Catf] (Monf) {$f$};
+  	\node[bb={2}{1}, below right=-1 and 1 of Monf] (Mong) {$g$};
+  	\node[bb={0}{0}, fit=(Monf) (Mong)] (Mon) {};
+  	\node[coordinate] at (Mon.west|-Monf_in1) (Mon_in1) {};
+  	\node[coordinate] at (Mon.west|-Mong_in2) (Mon_in2) {};
+  	\node[coordinate] at (Mon.east|-Monf_out1) (Mon_out1) {};
+  	\node[coordinate] at (Mon.east|-Mong_out1) (Mon_out2) {};
+  	\draw (Mon_in1) -- (Monf_in1);
+  	\draw (Monf_out1) -- (Mon_out1);
+  	\draw (Monf_out2) to (Mong_in1);
+  	\draw (Mon_in2) -- (Mong_in2);
+  	\draw (Mong_out1) -- (Mon_out2);
+  %
+  	\node[bb={2}{1}, right= 4.5 of Monf] (Trf) {$f$};
+  	\node[bb={2}{2}, below right=-1 and 1 of Trf] (Trg) {$g$};
+  	\node[bb={0}{0}, fit={($(Trf.north west)+(-.5,1)$) ($(Trg.south east)+(.5,-1)$)}] (Tr) {};
+  	\node[coordinate] at (Tr.west|-Trf_in2) (Tr_in1) {};
+  	\node[coordinate] at (Tr.west|-Trg_in2) (Tr_in2) {};
+  	\node[coordinate] at (Tr.east|-Trf_out1) (Tr_out1) {};
+  	\node[coordinate] at (Tr.east|-Trg_out2) (Tr_out2) {};
+  	\draw (Tr_in1) -- (Trf_in2);
+  	\draw (Trf_out1) to (Trg_in1);
+  	\draw (Tr_in2) -- (Trg_in2);
+  	\draw (Trg_out2) -- (Tr_out2);
+  	\draw let \p1=(Trg.east), \p2=(Trf.north west), \n1=\bbportlen, \n2=\bby in
+  		(Trg_out1) to[in=0] (\x1+\n1,\y2+\n2) -- (\x2-\n1,\y2+\n2) to[out=180] (Trf_in1);
+  %
+  \end{scope}
+  \begin{scope}[penetration=0, unoriented WD, pack outside color=black, pack inside color=white]
+  	\node[pack, right=2.9 of Trf] (Hypf) {$f$};
+  	\node[pack, below right=0 and .5 of Hypf] (Hypg) {$g$};
+  	\node[outer pack, inner sep=5pt, fit=(Hypf) (Hypg)] (Hyp) {};
+  	\node[coordinate] at ($(Hypg.-30)!.5!(Hyp.-30)$) (link) {};
+  	\draw (Hypf) to[bend left] (Hypg);
+  	\draw (Hypf) to[bend right] (Hypg);
+  	\draw (Hypg) -- (link);
+  	\draw[shorten >= -2pt] (link) to[bend left] (Hyp.-20);
+  	\draw[shorten >= -2pt] (link) to[bend right] (Hyp.-45);
+  	\draw[shorten >= -2pt] (Hypf) -- (Hyp);
+  \end{scope}
+  \begin{scope}[circuit logic US, every to/.style={out=0,in=180}]
+  	\node[and gate, draw, right=2.5 of Hypf] (Opdf) {$f$};
+  	\node[and gate, draw, below right=0 and 0.5 of Opdf] (Opdg) {$g$};
+		\node[and gate, inner sep=1pt, draw, fit=(Opdf) (Opdg)] (Opd) {};
+		\draw (Opd.input 1|-Opdf.input 1) to (Opdf.input 1);
+		\draw (Opd.input 1|-Opdg.input 2) to (Opdg.input 2);
+		\draw (Opdf.output) to (Opdg.input 1);
+		\draw (Opdg.output) to (Opd.output);
+  \end{scope}
+	\node[below=.65 of Cat.south] (Cat name) {category};
+	\node[text width=1.5cm] at (Cat name-|Mon) {monoidal category};
+	\node[text width=2.5cm] at (Cat name-|Tr) {traced monoidal category};
+	\node[text width=2cm] at (Cat name-|Hyp) {hypergraph category};
+	\node at (Cat name-|Opd) {operad};
 \end{scope}
 \end{tikzpicture}
 \]
-
+In each case, a morphism in $\cat{C}$ is being assembled from two morphisms $f,g\in\cat{C}$, which we might call \emph{components}. String diagrams in general can assemble a morphism from any number of component morphisms; for example the following build a morphism from three components:
+\[
+\begin{tikzpicture}[oriented WD, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=0, bb port sep=1, font=\footnotesize, text height=1.5ex, text depth=.5ex]
+	\node[bb={1}{1}] (X1) {$f$};
+  	\node[bb={1}{1}, right=of X1] (X2) {$g$};
+	\node[bb={1}{1}, right=of X2] (X3) {$h$};
+	\node[bb={1}{1}, fit=(X1) (X2) (X3)] (Y) {};
+	\draw (Y_in1') to (X1_in1);
+	\draw (X1_out1) to (X2_in1);
+	\draw (X2_out1) to (X3_in1);
+	\draw (X3_out1) to (Y_out1');
+%
+	\node[bb={1}{2}, above right=-1 and 5 of X3] (A) {$f$};
+	\node[bb={2}{2}, below right=-1 and 1 of A] (B) {$g$};
+	\node[bb={2}{1}, above right=-1 and 1 of B] (C) {$h$};
+	\node[bb={0}{0}, fit=(A) (B) (C)] (Y) {};
+	\draw (Y.west|-A_in1) to (A_in1);
+	\draw (Y.west|-B_in2) to (B_in2);
+	\draw (A_out1) to (C_in1);
+	\draw (A_out2) to (B_in1);
+	\draw (B_out1) to (C_in2);	
+	\draw (C_out1) to (C_out1-|Y.east);
+	\draw (B_out2) to (B_out2-|Y.east);
+\end{tikzpicture}
+\]
 
 
 %-------- Chapter --------%
