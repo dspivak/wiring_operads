@@ -32,7 +32,19 @@ pdfencoding=unicode]{hyperref}
   \addbibresource{Library20171004.bib}
 
 
+% Add widecheck
+\DeclareFontFamily{U}{mathx}{\hyphenchar\font45}
+\DeclareFontShape{U}{mathx}{m}{n}{
+      <5> <6> <7> <8> <9> <10>
+      <10.95> <12> <14.4> <17.28> <20.74> <24.88>
+      mathx10
+      }{}
+\DeclareSymbolFont{mathx}{U}{mathx}{m}{n}
+\DeclareFontSubstitution{U}{mathx}{m}{n}
+\DeclareMathAccent{\widecheck}{0}{mathx}{"71}
+\DeclareMathAccent{\wideparen}{0}{mathx}{"75}
 
+% tikz libraries
 \usetikzlibrary{
 	cd,
 	math,
@@ -47,6 +59,7 @@ pdfencoding=unicode]{hyperref}
 	intersections}
 \hypersetup{final}
 
+%drawing wiring diagrams
   \tikzset{
      oriented WD/.style={%everything after equals replaces "oriented WD" in key.
         every to/.style={out=0,in=180,draw},
@@ -238,7 +251,7 @@ sep=0pt,
 % Cospan stuff
 \newcommand{\lleg}[1]{#1^\backprime}
 \newcommand{\rleg}[1]{#1^\prime}
-\newcommand{\apex}[1]{\check{#1}}
+\newcommand{\apex}[1]{\widecheck{#1}}
 \newcommand{\cmap}{c}
 
 % Editing stuff
@@ -386,9 +399,16 @@ In each case, a morphism in $\cat{C}$ is being assembled from two morphisms $f,g
 \]
 The first composite can be denoted $h\circ g\circ f$; technically it should be either $(h\circ g)\circ f$ or $h\circ (g\circ f)$, but they are equal in any category. The wiring diagram ``abstracts away the difference''. The second composite is more complicated to write as a wiring of text---because it is inherently 2-dimensional compared to text which is 1-dimensional---but it can be denoted $(h\otimes\id)\circ(\id\otimes g)\circ(f\otimes\id)$.
 
-Operads have been proposed as a way of organizing the various sorts of wiring diagrams \cite{Spivak:2013b,Rupel.Spivak:2013a}. An operad morphism has many inputs and one output, and these correspond to a wiring diagram assembling many component morphisms to make one composite morphism. For example, it was shown in \cite{Spivak.Schultz.Rupel:2016a} that the operad for traced monoidal categories is $\Cob$, the operad of oriented 1-dimensional cobordisms, and it was shown in \cite{Fong?} that the operad for hypergraph categories is $\Cospan$.
+Operads have been proposed as a way of organizing the various sorts of wiring diagrams \cite{Spivak:2013b,Rupel.Spivak:2013a}. An operad morphism has many inputs and one output, and these correspond to a wiring diagram assembling many component morphisms to make one composite morphism. For example, it was shown in \cite{Spivak.Schultz.Rupel:2016a} that the operad for traced monoidal categories is $\Cob$, the operad of oriented 1-dimensional cobordisms, and it was shown in \cite[Section 4.4.2]{Fong:2016a} that the operad for hypergraph categories is $\Cospan$.
 
-While the operad formalism neatly captures wiring composition---and can thus be used to define the above sorts of categorical structures as operad-algebras---there is a technical annoyance that emerges in each case: the operad handles morphisms, but not objects in these categorical structures. The objects must be ``baked in'' to the operad as a varying set of string labels. Thus it is not the case that traced monoidal categories are algebras on $\Cob$ as our informal statement in the previous paragraph may have suggested. Instead, it is the case that for any generating set $\Lambda$ of objects, traced-monoidal-categories-whose-object-set-is-generated-by-$\Lambda$ are algebras on $\Cob/\Lambda$. The latter is a mouthful, and is not entirely pleasing.
+This notion of wiring diagrams has a much better-known predecessor, namely the string diagram calculus as developed by Joyal, Street, and Verity in \cite{Joyal.Street:1993a, Joyal.Street.Verity:1996a}. We call our structures wiring diagrams to emphasize three minor but important differences from string diagrams:
+\begin{enumerate}
+	\item Whereas string diagrams are embedded topological spaces up to an equivalence relation called isotopy, wiring diagrams are combinatorial gadgets: morphisms are generally indexed by a set rather than a space.
+	\item String diagrams are drawn with inner boxes but generally not an outer box. From an operadic point of view, the outer box is an essential aspect: it is the codomain of a morphism in the operad.
+	\item String diagrams emphasize combinators, i.e.\ various ways of combining boxes in series, parallel, with feedback, etc. Wiring diagrams emphasize substitution of diagrams in for other diagrams, i.e.\ zooming and black-boxing.
+\end{enumerate}
+
+While the operadic approach to string/wiring diagrams neatly captures composition---and can thus be used to define the above sorts of categorical structures as operad-algebras---there is a technical annoyance that emerges. Namely, the operad handles morphisms but not objects in these categorical structures. The objects must be ``baked in'' to the operad as a varying set of string labels. Thus it is not the case that traced monoidal categories are algebras on $\Cob$ as our informal statement in the previous paragraph may have suggested. Instead, it is the case that for any generating set $\Lambda$ of objects, traced-monoidal-categories-whose-object-set-is-generated-by-$\Lambda$ are algebras on $\Cob/\Lambda$. The latter is a mouthful, and is not entirely pleasing.
 
 
 In this paper we remedy this by following an idea from the work of \cite{Joyal.Kock} for defining compact symmetric multicategories (CSMs). Roughly, CSMs can be thought of as colored modular operads \cite{}, and they generalize small compact closed categories \cite{}, as well as colored wheeled properads \cite{}. It should be mentioned that the monad construction in \cite{Joyal.Kock} does not admit a well-defined multiplication. This is rectified in \cite{Raynor:2018a}. In \cite{}, an analogue construction for (non-wheeled) properads is presented, and it is clear how these methods may be further modified to handle other operad-types including (wheeled) PROPs \cite{} and (cyclic) operads \cite{}. 
@@ -465,16 +485,16 @@ Making this precise is the goal of this paper, but we give a high-level view her
 %---- Section ----%
 \section{Notation and terminology}
 
-For any natural number $n\in\NN=\{0,1,\ldots\}$, we denote the associated finite set by $\ul{n}\coloneqq\{1,2,\ldots,n\}$, so $\ul{0}=\varnothing$ and $\ul{3}=\{1,2,3\}$. Given a set $A$ and a function $a\colon\ul{n}\to A$, we may denote $a(i)$ by $a_i$ for $1\leq i\leq n$.
+For any natural number $n\in\NN=\{0,1,\ldots\}$, we denote the associated finite set by $\ul{n}\coloneqq\{1,2,\ldots,n\}$, so $\ul{0}=\varnothing$ and $\ul{3}=\{1,2,3\}$. Given a set $A$ and a function $a\colon\ul{n}\to A$, we may denote $a(i)\in A$ by $a_i$ for $1\leq i\leq n$.
 
 \begin{definition}\label{def.operad}
 To specify an operad $\OO$,
 \begin{itemize}
-	\item One specifies a set $\Typ(\OO)$, elements of which will be called \emph{types}.
-	\item For every natural number $n\in\NN$, function $x\colon\ul{n}\to\Typ(\OO)$, and type $y\in\Typ(\OO)$, one specifies a set $\OO(x;y)$, elements of which are called \emph{$n$-ary operations}. An $n$-ary operation $f\in\OO(x;y)$ may be denoted $f\colon(x_1,\ldots,x_n)\to y$, so a $0$-ary operation may be denoted $f\colon()\to y$.
-	\item For types $x_1,\ldots,x_n,y\in\Typ(\OO)$ and bijection $\sigma\colon\ul{n}\To{\cong}\ul{n}$, one specifies a bijection $\OO(\sigma)\colon\OO(x;y)\To\cong\OO(x\sigma;y)$, called the \emph{symmetry}.
-	\item For every type $x\in\Typ(\OO)$, one specifies a 1-ary operation $\id_x\colon(x)\to x$, called the \emph{identity on $x$}.
-	\item For operations $g\colon(y_1,\ldots,y_n)\to z$ and $f_1\colon(x_{1,1},\ldots,x_{1,m_1})\to y_1$, $f_2\colon(x_{2,1},\ldots,x_{2,m_2})\to y_2$, \ldots $f_n\colon(x_{n,1},\ldots,x_{n,m_n})\to y_n$, one specifies an operation denoted $g\circ(f_1,\ldots,f_n)$, called the \emph{composite}.
+	\item one specifies a set $\Typ(\OO)$, elements of which will be called \emph{types};
+	\item for every natural number $n\in\NN$, function $x\colon\ul{n}\to\Typ(\OO)$, and type $y\in\Typ(\OO)$, one specifies a set $\OO(x;y)$, elements of which are called \emph{$n$-ary operations}. An $n$-ary operation $f\in\OO(x;y)$ may be denoted $f\colon(x_1,\ldots,x_n)\to y$, so a $0$-ary operation may be denoted $f\colon()\to y$;
+	\item for types $x_1,\ldots,x_n,y\in\Typ(\OO)$ and bijection $\sigma\colon\ul{n}\To{\cong}\ul{n}$, one specifies a bijection $\OO(\sigma)\colon\OO(x;y)\To\cong\OO(x\sigma;y)$, called the \emph{symmetry};
+	\item for every type $x\in\Typ(\OO)$, one specifies a 1-ary operation $\id_x\colon(x)\to x$, called the \emph{identity on $x$}; and
+	\item for operations $g\colon(y_1,\ldots,y_n)\to z$ and $f_1\colon(x_{1,1},\ldots,x_{1,m_1})\to y_1$, $f_2\colon(x_{2,1},\ldots,x_{2,m_2})\to y_2$, \ldots $f_n\colon(x_{n,1},\ldots,x_{n,m_n})\to y_n$, one specifies an operation denoted $g\circ(f_1,\ldots,f_n)$, called the \emph{composite}.
 \end{itemize}
 These are required to satisfy well-known axioms; we refer the reader to \cite[Definition 2.2.21(?)]{Leinster:2004a}.
 \end{definition}
@@ -492,7 +512,9 @@ What we call types in \cref{def.operad} are often called colors or objects. What
 In this section we define wiring operads. A central character in this story will be $\Cospan$---the category of finite sets and cospans between them---which will turn out to be the terminal wiring operad. The sort of categorical structure associated to $\Cospan$ is that of hypergraph categories. We begin by recalling that story.
 
 %---- Section ----%
-\section{Hypergraph categories and $\Cospan$-algebras}
+\section{The operad $\Cospan$}
+
+We first recall the definition of $\Cospan$ as a symmetric monoidal category, then discuss
 
 \begin{definition}
 Let $(\Cospan,0,+)$ denote the symmetric monoidal category whose objects are natural numbers, and for which a morphism $\cmap\colon m\to n$ consists of a finite set $\apex{\cmap}$, called the \emph{apex}, together with functions $\lleg\cmap\colon\ul{m}\to\apex{\cmap}$ and $\rleg\cmap\colon\ul{n}\to\apex{\cmap}$, called the left and right leg, respectively. The notation comes from the diagram
@@ -527,7 +549,7 @@ font=\tiny]
 	\draw (ii) -- +(.5,0);
 \end{tikzpicture}
 \]
-
+A
 
 
 %-------- Chapter --------%
