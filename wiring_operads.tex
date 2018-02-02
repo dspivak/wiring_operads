@@ -206,8 +206,11 @@ sep=0pt,
 \DeclareMathOperator{\Mor}{Mor}
 \DeclareMathOperator*{\colim}{colim}
 \DeclareMathOperator{\im}{im}
-\DeclareMathOperator{\OOb}{Ob}
+\DeclareMathOperator{\Ob}{Ob}
 \DeclareMathOperator{\Typ}{Typ}
+
+\newcommand{\op}{^\tn{op}}
+
 
 \newcommand{\NN}{\mathbb{N}}
 
@@ -233,7 +236,9 @@ sep=0pt,
 \newcommand{\Cob}{\Cat{Cob}}
 \newcommand{\OO}{\cat{O}}
 
-\newcommand{\op}{^\tn{op}}
+\newcommand{\lleg}[1]{#1^\backprime}
+\newcommand{\rleg}[1]{#1^\prime}
+\newcommand{\apex}[1]{\check{#1}}
 
 \newcommand{\erase}[1]{}
 \newcommand{\dtodo}[2][]{\todo[linecolor=white, backgroundcolor=white, bordercolor=gray, #1]{#2}}
@@ -410,7 +415,39 @@ In this section we define wiring operads. A central character in this story will
 %---- Section ----%
 \section{Hypergraph categories and $\Cospan$-algebras}
 
+\begin{definition}
+Let $(\Cospan,0,+)$ denote the symmetric monoidal category whose objects are natural numbers, and for which a morphism $\phi\colon m\to n$ consists of a finite set $\apex{\varphi}$, called the \emph{apex}, together with functions $\lleg\phi\colon\ul{m}\to\apex{\varphi}$ and $\rleg\phi\colon\ul{n}\to\apex{\varphi}$, called the left and right leg, respectively. The notation comes from the diagram
+\[
+\begin{tikzcd}
+	\ul{m}\ar[dr, "\lleg\phi"']&&\ul{n}\ar[dl, "\rleg\phi"]\\
+	&\apex{\phi}
+\end{tikzcd}
+\]
+We consider two such cospans $\phi_1,\phi_2\colon \ul{m}\to \ul{n}$ to be the same morphism if there is a bijection $e\colon\apex{\phi_1}\to\apex{\phi_2}$ such that $e\lleg\phi_1=\lleg\phi_2$ and $e\rleg\phi_1=\rleg\phi_2$.
 
+The composite of two cospans $\phi\colon m\to n$ and $\psi\colon n\to p$ is formed by pushout in the usual way, $\ul{m}\to(\apex{\phi}\sqcup_{\ul{n}}\apex{\psi})\from\ul{p}$, and the identity on $n$ is the pair of identities $\ul{n}\to \ul{n}\from \ul{n}$. The monoidal unit is $0$. The monoidal product of objects $m$ and $n$ is their sum $m+n$; the monoidal product of cospans $\phi_1\colon m_1\to n_1$ and $\phi_2\colon m_2\to n_2$ is the disjoint union across the board: $(\ul{m_1}+\ul{m_2})\to(\apex{\phi_1}+\apex{\phi_2})\from (\ul{n_1}+\ul{n_2})$.
+\end{definition}
+
+To any monoidal category $(\cat{M},I,\otimes)$ we can associate an operad $\OO_\cat{M}$, called the \emph{operad underlying $\cat{M}$}: it has $\Typ(\OO_\cat{M})\coloneqq\Ob(\cat{O})$ and operations $\OO_{\cat{M}}(x_1,\ldots,x_n;y)\coloneqq\cat{M}(x_1\otimes\cdots\otimes x_n,y)$; see \cite{Leinster:2004a}. We often blur the distinction between a monoidal category and its underlying operad; for example, we will denote $\OO_{\Cospan}$ simply by $\Cospan$.
+
+We can picture a type $n$ in the operad $\Cospan$ as a circle with $n$ ports (in no particular order); here are pictures of the types $0,1,2,3$:
+\[
+\begin{tikzpicture}
+[unoriented WD, 
+spacing=10pt, pack size=12pt, surround sep=3pt, 
+font=\tiny]
+	\node[pack] (ff) {};
+	\node[pack,right=3 of ff] (gg) {};
+	\node[pack, right=3 of gg] (hh) {};
+	\node[pack, right=3 of hh] (ii) {};
+	\draw (gg) -- +(.5,0);
+	\draw (hh) -- +(.5,0);
+	\draw (hh) -- +(-.5,0);
+	\draw (ii) -- +(-.2,.4);
+	\draw (ii) -- +(-.2,-.4);
+	\draw (ii) -- +(.5,0);
+\end{tikzpicture}
+\]
 
 %-------- Chapter --------%
 \chapter{Examples}
