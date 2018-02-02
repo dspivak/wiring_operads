@@ -19,6 +19,7 @@
 \usepackage[varg,bigdelims]{newpxmath}
 \usepackage[usenames,dvipsnames]{xcolor}
 \usepackage{tikz}
+\usepackage{todonotes}
 \usepackage{graphicx}
 \usepackage{enumitem}
 \usepackage{mathpartir}
@@ -270,9 +271,9 @@ There are many sorts of categorical structures---categories, monoidal categories
   	\node[bb={0}{0}, fit=(Catf) (Catg)] (Cat) {};
   	\node[coordinate] at (Cat.west|-Catf_in1) (Cat_in1) {};
   	\node[coordinate] at (Cat.east|-Catg_out1) (Cat_out1) {};
-  	\draw (Cat_in1) -- (Catf_in1);
+  	\draw[shorten <=-2pt] (Cat_in1) -- (Catf_in1);
   	\draw (Catf_out1) -- (Catg_in1);
-  	\draw (Catg_out1) -- (Cat_out1);
+  	\draw[shorten >=-2pt] (Catg_out1) -- (Cat_out1);
   %
   	\node[bb={1}{2}, above right=-1.5 and 4 of Catf] (Monf) {$f$};
   	\node[bb={2}{1}, below right=-1 and 1 of Monf] (Mong) {$g$};
@@ -281,11 +282,11 @@ There are many sorts of categorical structures---categories, monoidal categories
   	\node[coordinate] at (Mon.west|-Mong_in2) (Mon_in2) {};
   	\node[coordinate] at (Mon.east|-Monf_out1) (Mon_out1) {};
   	\node[coordinate] at (Mon.east|-Mong_out1) (Mon_out2) {};
-  	\draw (Mon_in1) -- (Monf_in1);
-  	\draw (Monf_out1) -- (Mon_out1);
+  	\draw[shorten <=-2pt] (Mon_in1) -- (Monf_in1);
+  	\draw[shorten >=-2pt] (Monf_out1) -- (Mon_out1);
   	\draw (Monf_out2) to (Mong_in1);
-  	\draw (Mon_in2) -- (Mong_in2);
-  	\draw (Mong_out1) -- (Mon_out2);
+  	\draw[shorten <=-2pt] (Mon_in2) -- (Mong_in2);
+  	\draw[shorten >=-2pt] (Mong_out1) -- (Mon_out2);
   %
   	\node[bb={2}{1}, right= 4.5 of Monf] (Trf) {$f$};
   	\node[bb={2}{2}, below right=-1 and 1 of Trf] (Trg) {$g$};
@@ -294,10 +295,10 @@ There are many sorts of categorical structures---categories, monoidal categories
   	\node[coordinate] at (Tr.west|-Trg_in2) (Tr_in2) {};
   	\node[coordinate] at (Tr.east|-Trf_out1) (Tr_out1) {};
   	\node[coordinate] at (Tr.east|-Trg_out2) (Tr_out2) {};
-  	\draw (Tr_in1) -- (Trf_in2);
+  	\draw[shorten <=-2pt] (Tr_in1) -- (Trf_in2);
   	\draw (Trf_out1) to (Trg_in1);
-  	\draw (Tr_in2) -- (Trg_in2);
-  	\draw (Trg_out2) -- (Tr_out2);
+  	\draw[shorten <=-2pt] (Tr_in2) -- (Trg_in2);
+  	\draw[shorten >=-2pt] (Trg_out2) -- (Tr_out2);
   	\draw let \p1=(Trg.east), \p2=(Trf.north west), \n1=\bbportlen, \n2=\bby in
   		(Trg_out1) to[in=0] (\x1+\n1,\y2+\n2) -- (\x2-\n1,\y2+\n2) to[out=180] (Trf_in1);
   %
@@ -314,14 +315,14 @@ There are many sorts of categorical structures---categories, monoidal categories
   	\draw[shorten >= -2pt] (link) to[bend right] (Hyp.-45);
   	\draw[shorten >= -2pt] (Hypf) -- (Hyp);
   \end{scope}
-  \begin{scope}[circuit logic US, every to/.style={out=0,in=180}]
+  \begin{scope}[circuit logic US, thick, every to/.style={out=0,in=180}]
   	\node[and gate, draw, right=2.5 of Hypf] (Opdf) {$f$};
   	\node[and gate, draw, below right=0 and 0.5 of Opdf] (Opdg) {$g$};
 		\node[and gate, inner sep=1pt, draw, fit=(Opdf) (Opdg)] (Opd) {};
-		\draw (Opd.input 1|-Opdf.west) to (Opdf.west);
-		\draw (Opd.input 1|-Opdg.input 2) to (Opdg.input 2);
+		\draw[shorten <=-2pt] (Opd.input 1|-Opdf.west) to (Opdf.west);
+		\draw[shorten <=-2pt] (Opd.input 1|-Opdg.input 2) to (Opdg.input 2);
 		\draw (Opdf.output) to (Opdg.input 1);
-		\draw (Opdg.output) to (Opd.output);
+		\draw[shorten >=-2pt] (Opdg.output) to (Opd.output);
   \end{scope}
 	\node[below=.65 of Cat.south] (Cat name) {category};
 	\node[text width=1.5cm] at (Cat name-|Mon) {monoidal category};
@@ -338,31 +339,31 @@ In each case, a morphism in $\cat{C}$ is being assembled from two morphisms $f,g
   	\node[bb={1}{1}, right=of X1] (X2) {$g$};
 	\node[bb={1}{1}, right=of X2] (X3) {$h$};
 	\node[bb={1}{1}, fit=(X1) (X2) (X3)] (Y) {};
-	\draw (Y_in1') to (X1_in1);
+	\draw[shorten <=-2pt] (Y_in1') to (X1_in1);
 	\draw (X1_out1) to (X2_in1);
 	\draw (X2_out1) to (X3_in1);
-	\draw (X3_out1) to (Y_out1');
+	\draw[shorten >=-2pt] (X3_out1) to (Y_out1');
 %
-	\node[bb={1}{2}, above right=-1 and 6 of X3] (A) {$f$};
+	\node[bb={1}{2}, above right=-1 and 7 of X3] (A) {$f$};
 	\node[bb={2}{2}, below right=-1 and 1 of A] (B) {$g$};
 	\node[bb={2}{1}, above right=-1 and 1 of B] (C) {$h$};
 	\node[bb={0}{0}, fit=(A) (B) (C)] (Y) {};
-	\draw (Y.west|-A_in1) to (A_in1);
-	\draw (Y.west|-B_in2) to (B_in2);
+	\draw[shorten <=-2pt] (Y.west|-A_in1) to (A_in1);
+	\draw[shorten <=-2pt] (Y.west|-B_in2) to (B_in2);
 	\draw (A_out1) to (C_in1);
 	\draw (A_out2) to (B_in1);
 	\draw (B_out1) to (C_in2);	
-	\draw (C_out1) to (C_out1-|Y.east);
-	\draw (B_out2) to (B_out2-|Y.east);
+	\draw[shorten >=-2pt] (C_out1) to (C_out1-|Y.east);
+	\draw[shorten >=-2pt] (B_out2) to (B_out2-|Y.east);
 \end{tikzpicture}
 \]
 The first composite can be denoted $h\circ g\circ f$; technically it should be either $(h\circ g)\circ f$ or $h\circ (g\circ f)$, but they are equal in any category. The wiring diagram ``abstracts away the difference''. The second composite is more complicated to write as a wiring of text---because it is inherently 2-dimensional compared to text which is 1-dimensional---but it can be denoted $(h\otimes\id)\circ(\id\otimes g)\circ(f\otimes\id)$.
 
-Operads have been proposed as a way of organizing the various sorts of wiring diagrams \cite{Spivak:2013b,Rupel.Spivak:2013a}. An operad morphism has many inputs and one output, and these correspond to a wiring diagram assembling many components to make one composite. For example, it was shown in \cite{Spivak.Schultz.Rupel:2016a} that the operad for traced monoidal categories is $\Cat{Cob}$, the operad of oriented 1-dimensional cobordisms, and it was shown in \cite{Fong?} that the operad for hypergraph categories is $\Cat{Cospan}$.
+Operads have been proposed as a way of organizing the various sorts of wiring diagrams \cite{Spivak:2013b,Rupel.Spivak:2013a}. An operad morphism has many inputs and one output, and these correspond to a wiring diagram assembling many component morphisms to make one composite morphism. For example, it was shown in \cite{Spivak.Schultz.Rupel:2016a} that the operad for traced monoidal categories is $\Cat{Cob}$, the operad of oriented 1-dimensional cobordisms, and it was shown in \cite{Fong?} that the operad for hypergraph categories is $\Cat{Cospan}$.
 
-While the operad formalism neatly captures wiring composition, and can thus be used to define the above sorts of categorical structures as algebras, there is a technical annoyance that emerges in each case: the operad handles morphisms, but not objects in these categories. The objects must be ``baked in'' to the operad as string labels. Thus it is not the case that traced monoidal categories are algebras on $\Cat{Cob}$; it is the case that for any generating set $\Lambda$ of objects, traced-monoidal-categories-whose-object-set-is-generated-by-$\Lambda$ are algebras on $\Cat{Cob}/\Lambda$. The latter is a mouthful, and is not entirely pleasing.
+While the operad formalism neatly captures wiring composition---and can thus be used to define the above sorts of categorical structures as operad-algebras---there is a technical annoyance that emerges in each case: the operad handles morphisms, but not objects in these categorical structures. The objects must be ``baked in'' to the operad as a varying set of string labels. Thus it is not the case that traced monoidal categories are algebras on $\Cat{Cob}$ as our informal statement in the previous paragraph may have suggested. Instead, it is the case that for any generating set $\Lambda$ of objects, traced-monoidal-categories-whose-object-set-is-generated-by-$\Lambda$ are algebras on $\Cat{Cob}/\Lambda$. The latter is a mouthful, and is not entirely pleasing.
 
-In this paper we remedy this by following the work of \cite{Joyal.Kock} and \cite{Raynor}. DETAILS.
+In this paper we remedy this by following an idea from the work of \cite{Joyal.Kock} and \cite{Raynor}. \stodo[inline]{Sophie, add details on the history of the monad on presheaves on elementary graphs idea}.
 
 
 
