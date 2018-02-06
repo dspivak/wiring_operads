@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.7.17)  6 FEB 2018 13:57
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.7.17)  6 FEB 2018 14:04
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -2317,6 +2317,9 @@ LaTeX Font Warning: Size substitutions with differences
 LaTeX Warning: There were undefined references.
 
 
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+
 Package biblatex Warning: Please (re)run Biber on the file:
 (biblatex)                wiring_operads
 (biblatex)                and rerun LaTeX afterwards.
@@ -2354,7 +2357,7 @@ fonts/type1/public/newpx/zplb.pfb></usr/local/texlive/2016/texmf-dist/fonts/typ
 e1/public/newpx/zplr.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public
 /newpx/zplri.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/newpx/z
 plx-regular.pfb>
-Output written on wiring_operads.pdf (5 pages, 150177 bytes).
+Output written on wiring_operads.pdf (5 pages, 150187 bytes).
 PDF statistics:
  145 PDF objects out of 1000 (max. 8388607)
  121 compressed objects within 2 object streams
