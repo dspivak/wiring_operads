@@ -25,7 +25,6 @@
 \usepackage{mathpartir}
 \usepackage[bookmarks=true, colorlinks=true, linkcolor=blue!50!red, citecolor=orange,
 pdfencoding=unicode]{hyperref}
-
 \usepackage[capitalize]{cleveref}
   \newcommand{\creflastconjunction}{, and\nobreakspace}%Make cleveref use serial comma
 
@@ -247,6 +246,15 @@ sep=0pt,
 \newcommand{\dtodo}[2][]{\todo[linecolor=white, backgroundcolor=white, bordercolor=gray, #1]{#2}}
 \newcommand{\stodo}[2][]{\todo[color=red!30, #1]{#2}}
 
+%Sophie macros. Notation to be streamlined later
+\newcommand\Gr{\mathsf{Gr}}
+\newcommand\el{\mathsf{elGr}}
+\newcommand\g{\mathcal G}
+\newcommand\cc{\mathcal C}
+\newcommand{\esG}[1][\mathcal{G}]{\ensuremath{\mathsf{es}{(#1)}}}
+\newcommand{\elG}[1][\mathcal{G}]{\ensuremath{\mathsf{el}{(#1)}}}
+\newcommand\set{\mathsf{Set}}
+\newcommand\fin{\mathsf{FinSet}}
 
 
 \setlist{nosep}
@@ -383,8 +391,80 @@ Operads have been proposed as a way of organizing the various sorts of wiring di
 
 While the operad formalism neatly captures wiring composition---and can thus be used to define the above sorts of categorical structures as operad-algebras---there is a technical annoyance that emerges in each case: the operad handles morphisms, but not objects in these categorical structures. The objects must be ``baked in'' to the operad as a varying set of string labels. Thus it is not the case that traced monoidal categories are algebras on $\Cob$ as our informal statement in the previous paragraph may have suggested. Instead, it is the case that for any generating set $\Lambda$ of objects, traced-monoidal-categories-whose-object-set-is-generated-by-$\Lambda$ are algebras on $\Cob/\Lambda$. The latter is a mouthful, and is not entirely pleasing.
 
-In this paper we remedy this by following an idea from the work of \cite{Joyal.Kock} and \cite{Raynor}. \stodo[inline]{Sophie, add details on the history of the monad on presheaves on elementary graphs idea}.
 
+In this paper we remedy this by following an idea from the work of \cite{Joyal.Kock} that has been further developed by \cite{Raynor}. %\stodo[inline]{Sophie, add details on the history of the monad on presheaves on elementary graphs idea} 
+Joyal and Kock defined a category $\el$ of \emph{elementary graphs}. The objects are connected graphs without internal edges. Up to isomorphism, these are the \emph{stick graph} $(\shortmid)$ with no vertices, and for $n \geq 0$, the \emph{$n$-corollas} with one vertex and $n$ ``legs''.
+
+\begin{figure} [h]
+\centering{\begin{tikzpicture}[scale = 0.5]
+
+\draw[thick]
+%\shortmid
+(0,.2) --(0,1.8)
+%0
+%1
+(5,1)--(5,2)
+%2
+(7,0)--(7,2);
+%
+\filldraw (3,1) circle (3pt)
+	(5,1)circle (3pt)
+	(7,1) circle (3pt);
+	
+	 \node at (0,-1) {$(\shortmid)$};
+%\node at (3,-1) {$|\cc_{\mathbf 0}|$};
+%\node at (5,-1) {$|\cc_{\mathbf 1}|$};
+%\node at (7,-1) {$|\CX[\two]|$};
+% \node at (9,-1) {$|\C_{\mathbf 3}|$};
+% \node at (11,-1) {$|\C_{\mathbf 4}|$};
+
+%3
+
+\node at (9,1){\begin{tikzpicture}[scale = 0.5]
+\filldraw(0,0) circle(3pt);
+\foreach \angle in {-60,60,180} 
+{
+ \draw[thick] (\angle:0cm) -- (\angle:1cm);
+ 
+     }\end{tikzpicture}};
+   %4
+   %3
+
+\node at (11,1){\begin{tikzpicture}[scale = 0.5]
+\filldraw(0,0) circle(3pt);
+\foreach \angle in {-0,90,180,270} 
+{
+ \draw[thick] (\angle:0cm) -- (\angle:1cm);
+ 
+     }\end{tikzpicture}};
+     
+     \node at (13,1){$\cdots$};
+     %\node at (13, -1) {\dots};
+\end{tikzpicture}
+\caption{ Up to isomorphism, the first few elementary graphs.}\label{elgraph}
+}
+\end{figure}
+
+ The stick graph is equipped with a non-trivial automorphism $\tau$ satisfying $\tau^2 = \id_{\shortmid}$. %, that changes the orientation of $(\shortmid)$. 
+ Further, $\el$ contains all isomorphisms of corollas and for each $n$-corolla $\cc$, there are $2n$ morphisms $(\shortmid) \to \cc$ that can be pictured as inserting $ \shortmid$ into a leg of $\cc$ ``in either $\tau$-direction''. %To each finite set $X$, we may associate a corolla whose legs are labelled by $X$, and it is helpful to think of $\el $ as the groupoid of finite sets and isomorphisms, together with the extra object $ (\shortmid)$ and the morphisms with $(\shortmid)$ as their source.
+ 
+A presheaf $S: \el^{op} \to \set$ of $\el$ then consists of a set $S(\cc)$ for corolla $\cc$, together with the obvious symmetric group actions, and a set of \emph{types} (elsewhere called \emph{colours} or \emph{objects}) $\Lambda = S(\shortmid)$ equipped with an involution. % $ \omega = S(\tau)$. 
+For each leg of a corolla $\cc$, there are a pair of projections $ S(\cc) \to \Lambda$ that ``commute with the involution''.% and the image of each such pair corresponds to an orbit of $\omega$ in $\Lambda$.
+
+We can assemble a finite graph $\g$ with vertex set $V$ from a $V$-indexed set of corollas $\{\cc_v\}_{v \in V}$  ``glued together'' by stick graphs corresponding to the edges of $\g$. This gives a way of associating a unique subcategory $\esG \subset \el$ to any graph $\g$. Then for any graph $\g$, we may define \[
+S(\g) : = lim_{\cc \in \esG} S(\cc).\]
+Informally, $S(\g)$ is the set of ``decorations of $\g$ by $S$''. Each vertex $v$ of $ \g$ is decorated by an element of $\phi_v \in S(\cc_v)$ and, by construction, each edge of $\g$ is decorated by a type in $ \Lambda$ that is suitably ``compatible'' with each $\phi_v$ under the projections $S(\cc_v) \to \Lambda$.
+
+\stodo[inline]{Insert suitable graphic}
+
+Crucially for this paper, the object or type-labelling on the edges of a graph, just as the ``morphism-labelling'' on the vertices, is simply part of the data of the presheaf. 
+
+The intention of \cite{Joyal.Kock} was to construct so-called \emph{Compact symmetric multicategories (CSMs)} as algebras for a monad defined on the category of presheaves on $\el$. Roughly, CSMs can be thought of as coloured modular operads \cite{}, and they generalise small compact closed categories \cite{}, as well as coloured wheeled properads \cite{}. It should be mentioned that the monad construction in \cite{Joyal.Kock} does not admit a well-defined multiplication. This is rectified in \cite{Raynor}. In \cite{}, an analogue construction for (non-wheeled) properads is presented, and it is clear how these methods may be further modified to handle other operad-types including (wheeled) PROPs \cite{} and (cyclic) operads \cite{}. 
+
+\stodo[inline]{Add references.}
+
+For the purposes of this article, the important point is that the monad for CSMs is constructed by evaluating $\el$ presheaves on graphs, as described above. CSMs are precisely those presheaves $S$ on $\el$ such that for any decoration of a connected graph $\g$ by $S$, there is a unique rule for ``collapsing'' the edges of $\g$ to get a single element (``morphism'') in $S$. 
+  In particular, the categorical structures generalised by CSMs may be described by a single monad that deals with both the morphisms and the types at the same time. Furthermore, using the obvious modifications to the (elementary) graph category we may construct monads describing the other operad-like structures mentioned above, without having to worry about the particular set of types.
 
 %---- Section ----%
 \section{Notation and terminology}
