@@ -262,6 +262,7 @@ sep=0pt,
 
 %Sophie macros. Notation to be streamlined later
 \newcommand\Gr{\Cat{Gr}}
+\newcommand\el{\Cat{elGr}}
 \newcommand\El{\Cat{El}}
 %\newcommand\g{\mathcal G}
 %\newcommand\cc{\mathcal C}
@@ -408,14 +409,16 @@ This notion of wiring diagrams has a much better-known predecessor, namely the s
 	\item String diagrams emphasize combinators, i.e.\ various ways of combining boxes in series, parallel, with feedback, etc. Wiring diagrams emphasize substitution of diagrams in for other diagrams, i.e.\ zooming and black-boxing.
 \end{enumerate}
 
-While the operadic approach to string/wiring diagrams neatly captures composition---and can thus be used to define the above sorts of categorical structures as operad-algebras---there is a technical annoyance that emerges. Namely, the operad handles morphisms but not objects in these categorical structures. The objects must be ``baked in'' to the operad as a varying set of string labels. Thus it is not the case that traced monoidal categories are algebras on $\Cob$ as our informal statement in the previous paragraph may have suggested. Instead, it is the case that for any generating set $\Lambda$ of objects, traced-monoidal-categories-whose-object-set-is-generated-by-$\Lambda$ are algebras on $\Cob/\Lambda$. The latter is a mouthful, and is not entirely pleasing.
+While the operadic approach to string/wiring diagrams neatly captures composition---and can thus be used to define the above sorts of categorical structures as operad-algebras---there is a technical annoyance that emerges. Namely, the operad handles morphisms but not objects in these categorical structures. The objects must be ``baked in'' to the operad as a varying set of string labels. Thus it is not the case that traced monoidal categories are algebras on $\Cob$ as our informal statement in the previous paragraph may have suggested. Instead, it is the case that for any generating set $\Lambda$ of objects, traced-monoidal-categories-whose-object-set-is-generated-by-$\Lambda$ are algebras on $\Cob/\Lambda$. The latter is a mouthful, and is not entirely pleasing. We call this the \emph{object problem}.
 
+%---- Section ----%
+\section{Following Joyal-Kock to remedy the object problem}
 
-In this paper we remedy this by following an idea from the work of \cite{Joyal.Kock} for defining compact symmetric multicategories (CSMs). Roughly, CSMs can be thought of as colored modular operads \cite{}, and they generalize small compact closed categories \cite{}, as well as colored wheeled properads \cite{}. It should be mentioned that the monad construction in \cite{Joyal.Kock} does not admit a well-defined multiplication. This is rectified in \cite{Raynor:2018a}. In \cite{}, an analogue construction for (non-wheeled) properads is presented, and it is clear how these methods may be further modified to handle other operad-types including (wheeled) PROPs \cite{} and (cyclic) operads \cite{}. 
+In this paper we remedy the object problem by following an idea from the work of \cite{Joyal.Kock} for defining compact symmetric multicategories (CSMs). Roughly, CSMs can be thought of as colored modular operads \cite{}, and they generalize small compact closed categories \cite{}, as well as colored wheeled properads \cite{}. It should be mentioned that the monad construction in \cite{Joyal.Kock} does not admit a well-defined multiplication. This is rectified in \cite{Raynor:2018a}. In \cite{}, an analogue construction for (non-wheeled) properads is presented, and it is clear how these methods may be further modified to handle other operad-types including (wheeled) PROPs \cite{} and (cyclic) operads \cite{}. 
 
-We will not follow any of these constructions precisely, but instead take them as inspiration for our own approach. To construct their specific categorical structures of interest (CSMs), Joyal and Kock define a category $\El$ of \emph{elementary graphs}, as well as a certain monad on its category of presheaves; algebras on this monad are precisely the CSMs.
+We will not follow any of these constructions precisely, but instead take them as inspiration for our own approach. To construct their specific categorical structures of interest (CSMs), Joyal and Kock define a category $\el$ of \emph{elementary graphs}, as well as a certain monad on its category of presheaves; algebras on this monad are precisely the CSMs.
 
-To explain in a bit more detail, the objects of $\El$ are connected Feynmann graphs without internal edges. Up to isomorphism, these are the \emph{stick graph} $(\stick)$ with no vertices, and for $n \geq 0$, the \emph{$n$-corolla} $C_n$ with one vertex and $n$ ``legs'':
+To explain in a bit more detail, the objects of $\el$ are connected Feynmann graphs without internal edges. Up to isomorphism, these are the \emph{stick graph} $(\stick)$ with no vertices, and for $n \geq 0$, the \emph{$n$-corolla} $C_n$ with one vertex and $n$ ``legs'':
 \[
 \begin{tikzpicture}[thick]
   \node[coordinate] (stick) at (0,0.25) {};
@@ -432,7 +435,7 @@ To explain in a bit more detail, the objects of $\El$ are connected Feynmann gra
   \node[right= of C4] {$\cdots$};
 \end{tikzpicture}
 \]
-For each leg $i$ of $C_n$, there is a morphism $c^n_i\colon(\stick)\to C_n$ in $\El$.
+For each leg $i$ of $C_n$, there is a morphism $c^n_i\colon(\stick)\to C_n$ in $\el$.
 
 In our approach, the corollas will be replaced by circles with ports, which we call \emph{cells}, seen here:
 \begin{equation}\label{eqn.cells}
@@ -453,7 +456,7 @@ In our approach, the corollas will be replaced by circles with ports, which we c
 \end{equation}
 These cells will eventually have the same role as the boxes and circles labeled $f$, $g$, etc.\ in \cref{eqn.some_WDs}, and the stick will have the same role as the ports and wires.
 
-A presheaf $S\colon \El\op \to \SmSet$ can be roughly thought of as assigning preliminary data for a categorical structure $\cat{C}$. The set $S(\stick)$ will represent the objects of $\Ob(\cat{C})$ and for each $n\in\NN$, the set $S(C_n)$ will represent the morphisms of $\cat{C}$. The morphisms $c^n_i\colon(\stick)\to C_n$ will represent the domain/codomain of each morphism. To add a given sort of composition, one defines a monad on $\Psh(\El)$ whose algebras are to be the categorical structures with that sort of composition.
+A presheaf $S\colon \el\op \to \SmSet$ can be roughly thought of as assigning preliminary data for a categorical structure $\cat{C}$. The set $S(\stick)$ will represent the objects of $\Ob(\cat{C})$ and for each $n\in\NN$, the set $S(C_n)$ will represent the morphisms of $\cat{C}$. The morphisms $c^n_i\colon(\stick)\to C_n$ will represent the domain/codomain of each morphism. To add a given sort of composition, one defines a monad on $\Psh(\el)$ whose algebras are to be the categorical structures with that sort of composition.
 
 Making this precise is the goal of this paper, but we give a high-level view here. We will give a simple definition of what it means to equip an operad $\O$ with wiring structure: namely just a functor $\sigma\colon\O\to\Cospan$. We will use this to define both a small category $\El_\sigma$, of what we call elementary $\sigma$-graphs, together with a monad on $\Psh(\El_\sigma)$. Algebras on this monad will be categories that can interpret morphisms in $\O$---i.e.\ $\O$-shaped wiring diagrams---as composition laws.
 
@@ -517,7 +520,10 @@ To any monoidal category $(\cat{M},I,\otimes)$ we can associate an operad $\OO_\
 In this section we define wiring operads. A central character in this story will be $\Cospan$---the category of finite sets and cospans between them---which will turn out to be the terminal wiring operad. The sort of categorical structure associated to $\Cospan$ is that of hypergraph categories. We begin by recalling that story.
 
 %---- Section ----%
-\section{The operad $\Cospan$}
+\section{$\Cospan$, wiring diagrams, and hypergraph categories}
+
+% Subsection %
+\subsection{The operad $\Cospan$}
 
 We first recall the definition of $\Cospan$ as a symmetric monoidal category, then discuss
 
@@ -686,7 +692,7 @@ Compositions of morphisms in $\Cospan$ correspond to substituting wiring diagram
 	\draw (c1) to (c.270);
 \end{tikzpicture}
 \]
-Composing the corresponding cospans with the one above, by way of a pushout, yields the cospan with wiring diagram 
+Composing the corresponding cospans with the one above is achieved by way of a pushout. To conclude the example, we show a picture of the composite wiring diagram:
 \[
 \begin{tikzpicture}[penetration=0, unoriented WD, spacing=20pt, pack size=10pt, shorten >=-2pt, font=\fontsize{6pt}{0}\selectfont]
 	\node[pack] (f) {$f$};
@@ -718,6 +724,15 @@ Composing the corresponding cospans with the one above, by way of a pushout, yie
 \end{tikzpicture}
 \]
 \end{example}
+
+% Subsection %
+\subsection{The elementary category and its presheaves}
+
+In this section, we define a category that plays the same role as $\el$ plays in the Joyal-Kock approach, discussed in \cref{***}.
+
+\begin{definition}
+Define the elementary category $\El$
+\end{definition}
 
 
 %-------- Chapter --------%
