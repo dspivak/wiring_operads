@@ -228,7 +228,7 @@ sep=0pt,
 \newcommand{\ul}[1]{\underline{#1}}
 \newcommand{\wt}[1]{\widetilde{#1}}
 
-\newcommand{\Psh}[1]{\Fun{Psh}(#1)}
+\newcommand{\Psh}{\Fun{Psh}}
 
 \newcommand{\Cospan}{\Cat{Cospan}}
 \newcommand{\SmSet}{\Cat{Set}}
@@ -433,7 +433,10 @@ In our approach, the corollas will be replaced by circles with ports, which we c
 \]
 These cells will eventually have the same role as the boxes and circles labeled $f$, $g$, etc.\ in \cref{eqn.some_WDs}, and the stick will have the same role as the ports and wires.
 
-A presheaf $S\colon \el\op \to \SmSet$ can be roughly thought of as assigning preliminary data for a categorical structure $\cat{C}$. The set $S(\stick)$ will represent the objects of $\Ob(\cat{C})$ and for each $n\in\NN$, the set $S(C_n)$ will represent the morphisms of $\cat{C}$. The morphisms $c^n_i\colon(\stick)\to C_n$ will represent the domain/codomain of each morphism. To add a given sort of composition, one defines a monad on $\Psh(\el)$ whose algebras are to be the categorical structures with that sort of composition. Making this precise is the goal of this paper.
+A presheaf $S\colon \el\op \to \SmSet$ can be roughly thought of as assigning preliminary data for a categorical structure $\cat{C}$. The set $S(\stick)$ will represent the objects of $\Ob(\cat{C})$ and for each $n\in\NN$, the set $S(C_n)$ will represent the morphisms of $\cat{C}$. The morphisms $c^n_i\colon(\stick)\to C_n$ will represent the domain/codomain of each morphism. To add a given sort of composition, one defines a monad on $\Psh(\el)$ whose algebras are to be the categorical structures with that sort of composition.
+
+Making this precise is the goal of this paper, but we give a high-level view here.
+\dtodo{Fill in}
 
 %
 % The stick graph is equipped with a non-trivial automorphism $\tau$ satisfying $\tau^2 = \id_{\stick}$. %, that changes the orientation of $(\stick)$. 
