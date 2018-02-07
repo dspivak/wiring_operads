@@ -555,9 +555,9 @@ A $k$-ary morphism $c\colon(m_1,\ldots,m_k)\to n$ in $\Cospan$ is a pair of func
 We draw it by putting a cell with $n$-ports on the outside, $k$-many cells with ports $m_1,\ldots,m_k$ on the inside, $\apex{c}$-many connection nodes in the space between, and connecting the various ports to the connection nodes according to the functions $\lleg\cmap$ and $\rleg\cmap$.
 
 \begin{example}
-The wiring diagram shown to the left below corresponds to the cospan $(4,2,3)\to 3$ shown to the right
+The wiring diagram with components $a$, $b$, and $c$, shown to the left below corresponds to the cospan $(a,b,c)\to 3$, where $a=4$, $b=2$, and $c=3$, as shown to the right
 \[
-\begin{tikzpicture}[penetration=0, unoriented WD, spacing=20pt, pack size=25pt]
+\begin{tikzpicture}[penetration=0, unoriented WD, spacing=20pt, pack size=28pt]
   \begin{scope}[font=\small]
   	\node[pack] (a) {$a$};
   	\node[pack, right=4 of a] (b) {$b$};
@@ -565,7 +565,7 @@ The wiring diagram shown to the left below corresponds to the cospan $(4,2,3)\to
   	\node[outer pack, fit=(a) (b) (c)] (outer) {};
   \end{scope}
 %
-	\begin{scope}[font=\fontsize{5pt}{0}\selectfont]
+	\begin{scope}[font=\fontsize{6pt}{0}\selectfont]
 		\draw[shorten >= -3pt, shorten <=-3pt] (outer.200) to[bend left=50pt]
 			node[pos=-.1] {$2$}
 			node[pos=.5, link, label={[above right, font=\footnotesize]:$t$}] {}
@@ -656,6 +656,67 @@ The wiring diagram shown to the left below corresponds to the cospan $(4,2,3)\to
 \end{tikzpicture}
 \]
 
+Compositions of morphisms in $\Cospan$ correspond to substituting wiring diagrams within wiring diagrams. For example, consider the $0$-ary morphism $()\to a$, $2$-ary morphism $(2,2)\to b$, and $2$-ary morphism $(3,0)\to c$ shown below:
+\[
+\begin{tikzpicture}[penetration=0, unoriented WD, spacing=20pt, pack size=10pt, shorten >=-2pt, font=\fontsize{6pt}{0}\selectfont]
+	\node[link] (L1) {};
+	\node[link, right=.5 of L1] (L2) {};
+	\node[link] at ($(L1)!.5!(L2)+(0,.5)$) (L3) {};
+	\node[outer pack, inner sep=5pt, fit=(L1) (L2) (L3)] (a) {};
+	\draw (L1) to node[pos=1.6] {1} (a);
+	\draw (L3) to node[pos=1.6] {2} (a.80);
+	\draw (L2) to[bend left] node[pos=1.4] {3} (a.0);
+	\draw (L2) to[bend right] node[pos=1.4] {4} (a.-80);
+%
+	\node[outer pack, right=2 of a, inner sep=15pt] (b) {};
+	\node[link, right=.3 of b.180] (Lb1) {};
+	\node[link, above=.3 of b.260] (Lb2) {};
+	\node[pack, above right=.3 and .3 of Lb1] (b1) {$d$};
+	\node[pack, above right=.3 and .3 of Lb2] (b2) {$e$};
+	\node[link] at ($(b1)!.5!(b2)$) (Lb3) {};
+	\draw (Lb1) to node[pos=1.6] {$1$} (b);
+	\draw (Lb2) to node[pos=1.6] {$2$} (b);
+  \draw[shorten >=0] (Lb1) -- (b1) -- (Lb3) -- (b2) -- (Lb2);
+%
+	\node[pack, below right=0 and 3.5 of b.center] (c1) {$f$};
+	\node[pack, above=.3 of c1] (c2) {$g$};
+	\node[outer pack, inner sep=5pt, fit=(c1) (c2)] (c) {};
+	\draw (c1) to[bend right=10pt] (c.180);
+	\draw (c1) to[bend left=10pt] (c.0);
+	\draw (c1) to (c.270);
+\end{tikzpicture}
+\]
+Composing the corresponding cospans with the one above, by way of a pushout, yields the cospan with wiring diagram 
+\[
+\begin{tikzpicture}[penetration=0, unoriented WD, spacing=20pt, pack size=10pt, shorten >=-2pt, font=\fontsize{6pt}{0}\selectfont]
+	\node[pack] (f) {$f$};
+	\node[pack, right=1 of f] (e) {$e$};
+	\node[pack] at ($(f)!.5!(e)+(0,1)$) (d) {$d$};
+	\node[link] at ($(d)!.5!(e)$) (L1) {};
+	\node[link] at ($(d)!.5!(f)$) (L2) {};
+	\node[link] at ($(f)!.5!(e)$) (L3) {};
+%	\node[link, left=.5 of f] (L4) {};
+	\node[pack] at (f.west|-d.west) (g) {$g$};
+	\node[outer pack, inner sep=6pt, fit=(d) (e) (f) (g)] (outer) {};
+	\node[link] at (d-|e) {};
+	\draw (d) -- (L1) -- (e) -- (L3) -- (f) -- (L2) -- (d);
+	\draw (f) to[bend left=10pt] node[pos=.5, link] {} node[pos=1.3] {$6$} (outer.270);
+	\draw (L3) to[bend right=10pt] node[pos=1.15] {$5$} (outer.320);
+	\draw[shorten >= -2pt, shorten <=-2pt] (outer.200) to[bend left=50pt]
+			node[pos=-.2] {$2$}
+			node[pos=.5, link] {}
+			node[pos=1.2] {$1$}
+			(outer.240);
+	\draw[shorten >=0, shorten <=-2pt] (outer.170) to 
+		node [pos=-1] {$3$} 
+		node[pos=1, link] {} 
+		+(170:-5pt);
+	\draw[shorten >=0, shorten <=-2pt] (outer.130) to 
+		node [pos=-1.3] {$4$} 
+		node[pos=1, link] {} 
+		+(130:-5pt);
+\end{tikzpicture}
+\]
 \end{example}
 
 
