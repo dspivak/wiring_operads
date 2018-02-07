@@ -49,6 +49,7 @@ pdfencoding=unicode]{hyperref}
 	cd,
 	math,
 	decorations.markings,
+	decorations.pathreplacing,
 	positioning,
 	arrows.meta,
 	shapes,
@@ -260,12 +261,12 @@ sep=0pt,
 \newcommand{\stodo}[2][]{\todo[color=red!30, #1]{#2}}
 
 %Sophie macros. Notation to be streamlined later
-\newcommand\Gr{\mathsf{Gr}}
-\newcommand\el{\mathsf{elGr}}
-\newcommand\g{\mathcal G}
-\newcommand\cc{\mathcal C}
-\newcommand{\esG}[1][\mathcal{G}]{\ensuremath{\mathsf{es}{(#1)}}}
-\newcommand{\elG}[1][\mathcal{G}]{\ensuremath{\mathsf{el}{(#1)}}}
+\newcommand\Gr{\Cat{Gr}}
+\newcommand\El{\Cat{El}}
+%\newcommand\g{\mathcal G}
+%\newcommand\cc{\mathcal C}
+%\newcommand{\esG}[1][\mathcal{G}]{\ensuremath{\mathsf{es}{(#1)}}}
+%\newcommand{\elG}[1][\mathcal{G}]{\ensuremath{\mathsf{el}{(#1)}}}
 \newcommand\stick{\shortmid}
 
 
@@ -300,8 +301,7 @@ In this paper we introduce the notion of \emph{wiring operad}, a category-theore
 %---- Section ----%
 \section{Operads associated to various categorical structures}
 
-There are many sorts of categorical structures---categories, monoidal categories, traced monoidal categories, hypergraph categories, operads, etc.---and each has an associated sort of wiring diagram. A category with said structure, call it $\cat{C}$, can ``interpret'' such a wiring diagram as a way of assembling new morphisms from old in $\cat{C}$. For example, the five sorts of categorical structures listed above can interpret the following sorts of wiring diagrams:%
-\footnote{What we call wiring diagrams are strongly related to much more well-known concept called \emph{string diagrams}. The difference is that string diagrams do not include the exterior box, the composite, as an explicit part. In the work that follows, this difference is important, because the exterior box and the interior boxes have the same status: they are all simply objects in the wiring operad. We also prefer the term ``wiring'', because the term ``string'' also has other interpretations in the intersection of math and physics.}
+There are many sorts of categorical structures---categories, monoidal categories, traced monoidal categories, hypergraph categories, operads, etc.---and each has an associated sort of wiring diagram. A category with said structure, call it $\cat{C}$, can ``interpret'' such a wiring diagram as a way of assembling new morphisms from old in $\cat{C}$. For example, the five sorts of categorical structures listed above can interpret the following sorts of wiring diagrams:
 \begin{equation}\label{eqn.some_WDs}
 \begin{tikzpicture}
 \begin{scope}[font=\footnotesize, text height=1.5ex, text depth=.5ex]
@@ -372,7 +372,7 @@ There are many sorts of categorical structures---categories, monoidal categories
 \end{scope}
 \end{tikzpicture}
 \end{equation}
-In each case, a morphism in $\cat{C}$ is being assembled from two morphisms $f,g\in\cat{C}$, which we might call \emph{components}. String diagrams in general can assemble a composite morphism from any number of component morphisms; for example the following build a composite morphism from three components:
+In each case, a morphism in $\cat{C}$ is being assembled from two morphisms $f,g\in\cat{C}$, which we might call \emph{components}. A given sort of wiring diagram can of course assemble a composite morphism from more than two component morphisms; for example the following build a composite morphism from three components:
 \[
 \begin{tikzpicture}[oriented WD, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=0, bb port sep=.8, font=\footnotesize, text height=1.5ex, text depth=.5ex]
 	\node[bb={1}{1}] (X1) {$f$};
@@ -413,9 +413,9 @@ While the operadic approach to string/wiring diagrams neatly captures compositio
 
 In this paper we remedy this by following an idea from the work of \cite{Joyal.Kock} for defining compact symmetric multicategories (CSMs). Roughly, CSMs can be thought of as colored modular operads \cite{}, and they generalize small compact closed categories \cite{}, as well as colored wheeled properads \cite{}. It should be mentioned that the monad construction in \cite{Joyal.Kock} does not admit a well-defined multiplication. This is rectified in \cite{Raynor:2018a}. In \cite{}, an analogue construction for (non-wheeled) properads is presented, and it is clear how these methods may be further modified to handle other operad-types including (wheeled) PROPs \cite{} and (cyclic) operads \cite{}. 
 
-We will not follow any of these constructions precisely, but instead take them as inspiration for our own approach. To construct their specific categorical structures of interest (CSMs), Joyal and Kock define a category $\el$ of \emph{elementary graphs}, as well as a certain monad on its category of presheaves; algebras on this monad are precisely the CSMs.
+We will not follow any of these constructions precisely, but instead take them as inspiration for our own approach. To construct their specific categorical structures of interest (CSMs), Joyal and Kock define a category $\El$ of \emph{elementary graphs}, as well as a certain monad on its category of presheaves; algebras on this monad are precisely the CSMs.
 
-To explain in a bit more detail, the objects of $\el$ are connected Feynmann graphs without internal edges. Up to isomorphism, these are the \emph{stick graph} $(\stick)$ with no vertices, and for $n \geq 0$, the \emph{$n$-corolla} $C_n$ with one vertex and $n$ ``legs'':
+To explain in a bit more detail, the objects of $\El$ are connected Feynmann graphs without internal edges. Up to isomorphism, these are the \emph{stick graph} $(\stick)$ with no vertices, and for $n \geq 0$, the \emph{$n$-corolla} $C_n$ with one vertex and $n$ ``legs'':
 \[
 \begin{tikzpicture}[thick]
   \node[coordinate] (stick) at (0,0.25) {};
@@ -432,10 +432,10 @@ To explain in a bit more detail, the objects of $\el$ are connected Feynmann gra
   \node[right= of C4] {$\cdots$};
 \end{tikzpicture}
 \]
-For each leg $i$ of $C_n$, there is a morphism $c^n_i\colon(\stick)\to C_n$ in $\el$.
+For each leg $i$ of $C_n$, there is a morphism $c^n_i\colon(\stick)\to C_n$ in $\El$.
 
 In our approach, the corollas will be replaced by circles with ports, which we call \emph{cells}, seen here:
-\[
+\begin{equation}\label{eqn.cells}
 \begin{tikzpicture}[thick]
   \node[coordinate] (stick) at (0,0.25) {};
   \draw (stick) -- +(0,.5);
@@ -450,13 +450,13 @@ In our approach, the corollas will be replaced by circles with ports, which we c
   }
   \node[right= of C4] {$\cdots$};
 \end{tikzpicture}
-\]
+\end{equation}
 These cells will eventually have the same role as the boxes and circles labeled $f$, $g$, etc.\ in \cref{eqn.some_WDs}, and the stick will have the same role as the ports and wires.
 
-A presheaf $S\colon \el\op \to \SmSet$ can be roughly thought of as assigning preliminary data for a categorical structure $\cat{C}$. The set $S(\stick)$ will represent the objects of $\Ob(\cat{C})$ and for each $n\in\NN$, the set $S(C_n)$ will represent the morphisms of $\cat{C}$. The morphisms $c^n_i\colon(\stick)\to C_n$ will represent the domain/codomain of each morphism. To add a given sort of composition, one defines a monad on $\Psh(\el)$ whose algebras are to be the categorical structures with that sort of composition.
+A presheaf $S\colon \El\op \to \SmSet$ can be roughly thought of as assigning preliminary data for a categorical structure $\cat{C}$. The set $S(\stick)$ will represent the objects of $\Ob(\cat{C})$ and for each $n\in\NN$, the set $S(C_n)$ will represent the morphisms of $\cat{C}$. The morphisms $c^n_i\colon(\stick)\to C_n$ will represent the domain/codomain of each morphism. To add a given sort of composition, one defines a monad on $\Psh(\El)$ whose algebras are to be the categorical structures with that sort of composition.
 
-Making this precise is the goal of this paper, but we give a high-level view here.
-\dtodo{Fill in}
+Making this precise is the goal of this paper, but we give a high-level view here. We will give a simple definition of what it means to equip an operad $\O$ with wiring structure: namely just a functor $\sigma\colon\O\to\Cospan$. We will use this to define both a small category $\El_\sigma$, of what we call elementary $\sigma$-graphs, together with a monad on $\Psh(\El_\sigma)$. Algebras on this monad will be categories that can interpret morphisms in $\O$---i.e.\ $\O$-shaped wiring diagrams---as composition laws.
+
 
 %
 % The stick graph is equipped with a non-trivial automorphism $\tau$ satisfying $\tau^2 = \id_{\stick}$. %, that changes the orientation of $(\stick)$. 
@@ -491,10 +491,10 @@ For any natural number $n\in\NN=\{0,1,\ldots\}$, we denote the associated finite
 To specify an operad $\OO$,
 \begin{itemize}
 	\item one specifies a set $\Typ(\OO)$, elements of which will be called \emph{types};
-	\item for every natural number $n\in\NN$, function $x\colon\ul{n}\to\Typ(\OO)$, and type $y\in\Typ(\OO)$, one specifies a set $\OO(x;y)$, elements of which are called \emph{$n$-ary operations}. An $n$-ary operation $f\in\OO(x;y)$ may be denoted $f\colon(x_1,\ldots,x_n)\to y$, so a $0$-ary operation may be denoted $f\colon()\to y$;
-	\item for types $x_1,\ldots,x_n,y\in\Typ(\OO)$ and bijection $\sigma\colon\ul{n}\To{\cong}\ul{n}$, one specifies a bijection $\OO(\sigma)\colon\OO(x;y)\To\cong\OO(x\sigma;y)$, called the \emph{symmetry};
+	\item for every natural number $k\in\NN$, function $x\colon\ul{k}\to\Typ(\OO)$, and type $y\in\Typ(\OO)$, one specifies a set $\OO(x;y)$, elements of which are called \emph{$k$-ary operations}. An $k$-ary operation $f\in\OO(x;y)$ may be denoted $f\colon(x_1,\ldots,x_k)\to y$, so a $0$-ary operation may be denoted $f\colon()\to y$;
+	\item for types $x_1,\ldots,x_k,y\in\Typ(\OO)$ and bijection $\sigma\colon\ul{k}\To{\cong}\ul{k}$, one specifies a bijection $\OO(\sigma)\colon\OO(x;y)\To\cong\OO(x\sigma;y)$, called the \emph{symmetry};
 	\item for every type $x\in\Typ(\OO)$, one specifies a 1-ary operation $\id_x\colon(x)\to x$, called the \emph{identity on $x$}; and
-	\item for operations $g\colon(y_1,\ldots,y_n)\to z$ and $f_1\colon(x_{1,1},\ldots,x_{1,m_1})\to y_1$, $f_2\colon(x_{2,1},\ldots,x_{2,m_2})\to y_2$, \ldots $f_n\colon(x_{n,1},\ldots,x_{n,m_n})\to y_n$, one specifies an operation denoted $g\circ(f_1,\ldots,f_n)$, called the \emph{composite}.
+	\item for a $k$-ary operation $g\colon(y_1,\ldots,y_k)\to z$ and $k$-many morphisms $f_1\colon(x_{1,1},\ldots,x_{1,j_1})\to y_1$, $f_2\colon(x_{2,1},\ldots,x_{2,j_2})\to y_2$, \ldots, $f_k\colon(x_{k,1},\ldots,x_{k,j_k})\to y_k$, one specifies an operation denoted $g\circ(f_1,\ldots,f_k)$, called the \emph{composite}.
 \end{itemize}
 These are required to satisfy well-known axioms; we refer the reader to \cite[Definition 2.2.21(?)]{Leinster:2004a}.
 \end{definition}
@@ -505,6 +505,11 @@ What we call an operad is often called a ``small symmetric colored operad'' or a
 What we call types in \cref{def.operad} are often called colors or objects. What we call operations are often called morphisms.
 \end{remark}
 \todo[inline]{Do we use the symmetry in the proof? Can we drop it?}
+
+\begin{remark}\label{rem.mon_cat_operad_blur}
+To any monoidal category $(\cat{M},I,\otimes)$ we can associate an operad $\OO_\cat{M}$, called the \emph{operad underlying $\cat{M}$}: it has $\Typ(\OO_\cat{M})\coloneqq\Ob(\cat{O})$ and operations $\OO_{\cat{M}}(x_1,\ldots,x_k;y)\coloneqq\cat{M}(x_1\otimes\cdots\otimes x_k,y)$; see \cite{Leinster:2004a}. This is part of a functor $U\colon\Cat{MonCatLax}\to\Cat{Opd}$, from the category of monoidal categories and lax monoidal functors to the category of operads and operad functors, and this functor is fully faithful. Thus we often blur the distinction between a monoidal category and its underlying operad
+\end{remark}
+
 
 %-------- Chapter --------%
 \chapter{Wiring operads and associated categorical structures}
@@ -529,27 +534,129 @@ We consider two such cospans $\cmap_1,\cmap_2\colon \ul{m}\to \ul{n}$ to be the 
 The composite of two cospans $\cmap\colon m\to n$ and $\psi\colon n\to p$ is formed by pushout in the usual way, $\ul{m}\to(\apex{\cmap}\sqcup_{\ul{n}}\apex{\psi})\from\ul{p}$, and the identity on $n$ is the pair of identities $\ul{n}\to \ul{n}\from \ul{n}$. The monoidal unit is $0$. The monoidal product of objects $m$ and $n$ is their sum $m+n$; the monoidal product of cospans $\cmap_1\colon m_1\to n_1$ and $\cmap_2\colon m_2\to n_2$ is the disjoint union across the board: $(\ul{m_1}+\ul{m_2})\to(\apex{\cmap_1}+\apex{\cmap_2})\from (\ul{n_1}+\ul{n_2})$.
 \end{definition}
 
-To any monoidal category $(\cat{M},I,\otimes)$ we can associate an operad $\OO_\cat{M}$, called the \emph{operad underlying $\cat{M}$}: it has $\Typ(\OO_\cat{M})\coloneqq\Ob(\cat{O})$ and operations $\OO_{\cat{M}}(x_1,\ldots,x_n;y)\coloneqq\cat{M}(x_1\otimes\cdots\otimes x_n,y)$; see \cite{Leinster:2004a}. This is part of a functor $U\colon\Cat{MonCatLax}\to\Cat{Opd}$, from the category of monoidal categories and lax monoidal functors to the category of operads and operad functors, and this functor is fully faithful. Thus we often blur the distinction between a monoidal category and its underlying operad; for example, we will denote $\OO_{\Cospan}$ simply by $\Cospan$.
+By \cref{rem.mon_cat_operad_blur}, we can blur the distinction between $\Cospan$ as a monoidal category and $\Cospan$ as an operad. Thus by a minor abuse of notation, we will denote $\OO_{\Cospan}$ simply by $\Cospan$.
 
-We can picture a type $n$ in the operad $\Cospan$ as a circle with $n$ ``ports'' placed around the circle in no particular order; here are pictures of the types $0,1,2,3$:
+We can picture a type $n$ in the operad $\Cospan$ as a circle with $n$ ``ports'' placed around the circle in no particular order; here are pictures of the types $0,1,2,3,4$:
 \[
-\begin{tikzpicture}
-[unoriented WD, 
-spacing=10pt, pack size=12pt, surround sep=3pt, 
-font=\tiny]
-	\node[pack] (ff) {};
-	\node[pack,right=3 of ff] (gg) {};
-	\node[pack, right=3 of gg] (hh) {};
-	\node[pack, right=3 of hh] (ii) {};
-	\draw (gg) -- +(.5,0);
-	\draw (hh) -- +(.5,0);
-	\draw (hh) -- +(-.5,0);
-	\draw (ii) -- +(-.2,.4);
-	\draw (ii) -- +(-.2,-.4);
-	\draw (ii) -- +(.5,0);
+\begin{tikzpicture}[thick]
+  \foreach \i in {0,...,4} {
+	\node[unoriented WD, pack inside color=white, pack outside color=black, pack] at (\i+1,0.5) (C\i) {};
+		\ifnum \i>0 
+  		\foreach \j in {1,...,\i} {
+  			\draw (C\i) -- +(90+360*\j/\i:.5);
+  		}
+		\fi
+  }
+  \node[right= of C4] {$\cdots$};
 \end{tikzpicture}
 \]
-A
+A $k$-ary morphism $c\colon(m_1,\ldots,m_k)\to n$ in $\Cospan$ is a pair of functions
+\[\ul{m_1+\cdots+m_k}\Too{\lleg\cmap}\apex{\cmap}\Fromm{\rleg\cmap}\ul{n}.\]
+We draw it by putting a cell with $n$-ports on the outside, $k$-many cells with ports $m_1,\ldots,m_k$ on the inside, $\apex{c}$-many connection nodes in the space between, and connecting the various ports to the connection nodes according to the functions $\lleg\cmap$ and $\rleg\cmap$.
+
+\begin{example}
+The wiring diagram shown to the left below corresponds to the cospan $(4,2,3)\to 3$ shown to the right
+\[
+\begin{tikzpicture}[penetration=0, unoriented WD, spacing=20pt, pack size=25pt]
+  \begin{scope}[font=\small]
+  	\node[pack] (a) {$a$};
+  	\node[pack, right=4 of a] (b) {$b$};
+  	\node[pack] at ($(a)!.5!(b)+(0,-2)$) (c) {$c$};
+  	\node[outer pack, fit=(a) (b) (c)] (outer) {};
+  \end{scope}
+%
+	\begin{scope}[font=\fontsize{5pt}{0}\selectfont]
+		\draw[shorten >= -3pt, shorten <=-3pt] (outer.200) to[bend left=50pt]
+			node[pos=-.1] {$2$}
+			node[pos=.5, link, label={[above right, font=\footnotesize]:$t$}] {}
+			node[pos=1.1] {$1$}
+			(outer.240);
+		\draw[shorten >= -3pt] (a) to[bend left=20pt]
+			node[pos=-.1] {$1$}
+			node[pos=.5, link, label={[above, font=\footnotesize]:$u$}] {}
+			node[pos=1.15] {$3$}
+			(outer.170);
+		\draw[shorten >= -3pt] (a) to[bend right=20pt]
+			node[pos=-.15] {$2$}
+			node[pos=.5, link, label={[right, font=\footnotesize]:$v$}] {}
+			node[pos=1.25] {$4$}
+			(outer.130);
+  	\draw (a) to 
+			node[pos=-.05] {$3$} 
+			node[pos=.5, link, label={[above, font=\footnotesize]:$w$}] {} 
+			node[pos=1.05] {$1$}
+			(b);
+		\draw (a) to[bend right]
+			node[pos=-.1] {$4$}
+			node[pos=.5, link, label={[above, font=\footnotesize]:$x$}] {}
+			node[pos=1.1] {$1$}
+			(c);
+		\draw (b) to[bend left]
+			node[pos=-.1] {$2$}
+			node[pos=.5, link, label={[above, font=\footnotesize]:$y$}] (y) {}
+			node[pos=1.1] {$2$}
+			(c);
+		\node[link, label={[above, font=\footnotesize]:$s$}] at ($(y)!.5!(outer.0)$) {};
+		\draw[shorten >= -3pt] (c) to
+			node[pos=-.15] {$3$}
+			node[pos=.5, link, label={[left, font=\footnotesize]:$z$}] {}
+			node[pos=1.25] {$6$}
+			(outer);
+		\draw[shorten >= -3pt] (y) to
+			node[pos=1.15] {$5$}
+			(outer.-30);
+	\end{scope}
+	\begin{scope}[font=\scriptsize,x=1em, decoration={brace, amplitude=5pt},y=3ex]
+		\node[link, label=$1$, below right=0 and 10 of b.90] (a1) {};
+		\node[link, label=$2$, right=1 of a1] (a2) {};
+		\node[link, label=$3$, right=1 of a2] (a3) {};
+		\node[link, label=$4$, right=1 of a3] (a4) {};
+		\node[link, label=$1$, right=1 of a4] (b1) {};
+		\node[link, label=$2$, right=1 of b1] (b2) {};
+		\node[link, label=$1$, right=1 of b2] (c1) {};
+		\node[link, label=$2$, right=1 of c1] (c2) {};
+		\node[link, label=$3$, right=1 of c2] (c3) {};
+		\draw[decorate] ($(a1.north)+(-2pt,10pt)$) to node[above=8pt] {$a$} ($(a4.north)+(2pt,10pt)$);
+		\draw[decorate] ($(b1.north)+(-2pt,10pt)$) to node[above=8pt] {$b$} ($(b2.north)+(2pt,10pt)$);
+		\draw[decorate] ($(c1.north)+(-2pt,10pt)$) to node[above=8pt] {$c$} ($(c3.north)+(2pt,10pt)$);
+		\node[link, label=$s$] at ($(a1)!.5!(a2)+(0,-2.5)$) (s) {};
+		\node[link, label=$t$, right=1 of s] (t) {};
+		\node[link, label=$u$, right=1 of t] (u) {};
+		\node[link, label=$v$, right=1 of u] (v) {};
+		\node[link, label=$w$, right=1 of v] (w) {};
+		\node[link, label=$x$, right=1 of w] (x) {};
+		\node[link, label=$y$, right=1 of x] (y) {};
+		\node[link, label=$z$, right=1 of y] (z) {};
+		\node[link, label={[below]:$1$}] at ($(t)+(0,-2)$) (outer1) {};
+		\node[link, label={[below]:$2$}, right=1 of outer1] (outer2) {};
+		\node[link, label={[below]:$3$}, right=1 of outer2] (outer3) {};
+		\node[link, label={[below]:$4$}, right=1 of outer3] (outer4) {};
+		\node[link, label={[below]:$5$}, right=1 of outer4] (outer5) {};
+		\node[link, label={[below]:$6$}, right=1 of outer5] (outer6) {};
+	\end{scope}
+	\begin{scope}[->, shorten >=8pt, thin, in=90, out=-90]
+  	\draw (a1) to (u);
+  	\draw (a2) to (v);
+  	\draw (a3) to (w);
+  	\draw (a4) to (x);
+  	\draw (b1) to (w);
+  	\draw (b2) to (y);
+  	\draw (c1) to (x);
+  	\draw (c2) to (y);
+  	\draw (c3) to (z);
+	\end{scope}
+	\begin{scope}[->, shorten >=2pt, thin, in=-90, out=90]
+		\draw (outer1) to (t);
+		\draw (outer2) to (t);
+		\draw (outer3) to (u);
+		\draw (outer4) to (v);
+		\draw (outer5) to (y);
+		\draw (outer6) to (z);
+	\end{scope}
+\end{tikzpicture}
+\]
+
+\end{example}
 
 
 %-------- Chapter --------%
