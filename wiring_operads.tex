@@ -262,8 +262,8 @@ sep=0pt,
 
 %Sophie macros. Notation to be streamlined later
 \newcommand\Gr{\Cat{Gr}}
-\newcommand\el{\Cat{elGr}}
-\newcommand\El{\Cat{El}}
+\newcommand\elGr{\Cat{elGr}}
+\newcommand\el{\Cat{el}}
 %\newcommand\g{\mathcal G}
 %\newcommand\cc{\mathcal C}
 %\newcommand{\esG}[1][\mathcal{G}]{\ensuremath{\mathsf{es}{(#1)}}}
@@ -412,13 +412,13 @@ This notion of wiring diagrams has a much better-known predecessor, namely the s
 While the operadic approach to string/wiring diagrams neatly captures composition---and can thus be used to define the above sorts of categorical structures as operad-algebras---there is a technical annoyance that emerges. Namely, the operad handles morphisms but not objects in these categorical structures. The objects must be ``baked in'' to the operad as a varying set of string labels. Thus it is not the case that traced monoidal categories are algebras on $\Cob$ as our informal statement in the previous paragraph may have suggested. Instead, it is the case that for any generating set $\Lambda$ of objects, traced-monoidal-categories-whose-object-set-is-generated-by-$\Lambda$ are algebras on $\Cob/\Lambda$. The latter is a mouthful, and is not entirely pleasing. We call this the \emph{object problem}.
 
 %---- Section ----%
-\section{Following Joyal-Kock to remedy the object problem}
+\section{Following Joyal-Kock to remedy the object problem}\label{sec.JK_remedy}
 
 In this paper we remedy the object problem by following an idea from the work of \cite{Joyal.Kock} for defining compact symmetric multicategories (CSMs). Roughly, CSMs can be thought of as colored modular operads \cite{}, and they generalize small compact closed categories \cite{}, as well as colored wheeled properads \cite{}. It should be mentioned that the monad construction in \cite{Joyal.Kock} does not admit a well-defined multiplication. This is rectified in \cite{Raynor:2018a}. In \cite{}, an analogue construction for (non-wheeled) properads is presented, and it is clear how these methods may be further modified to handle other operad-types including (wheeled) PROPs \cite{} and (cyclic) operads \cite{}. 
 
-We will not follow any of these constructions precisely, but instead take them as inspiration for our own approach. To construct their specific categorical structures of interest (CSMs), Joyal and Kock define a category $\el$ of \emph{elementary graphs}, as well as a certain monad on its category of presheaves; algebras on this monad are precisely the CSMs.
+We will not follow any of these constructions precisely, but instead take them as inspiration for our own approach. To construct their specific categorical structures of interest (CSMs), Joyal and Kock define a category $\elGr$ of \emph{elementary graphs}, as well as a certain monad on its category of presheaves; algebras on this monad are precisely the CSMs.
 
-To explain in a bit more detail, the objects of $\el$ are connected Feynmann graphs without internal edges. Up to isomorphism, these are the \emph{stick graph} $(\stick)$ with no vertices, and for $n \geq 0$, the \emph{$n$-corolla} $C_n$ with one vertex and $n$ ``legs'':
+To explain in a bit more detail, the objects of $\elGr$ are connected Feynmann graphs without internal edges. Up to isomorphism, these are the \emph{stick graph} $(\stick)$ with no vertices, and for $n \geq 0$, the \emph{$n$-corolla} $C_n$ with one vertex and $n$ ``legs'':
 \[
 \begin{tikzpicture}[thick]
   \node[coordinate] (stick) at (0,0.25) {};
@@ -435,7 +435,7 @@ To explain in a bit more detail, the objects of $\el$ are connected Feynmann gra
   \node[right= of C4] {$\cdots$};
 \end{tikzpicture}
 \]
-For each leg $i$ of $C_n$, there is a morphism $c^n_i\colon(\stick)\to C_n$ in $\el$.
+For each leg $i$ of $C_n$, there is a morphism $c^n_i\colon(\stick)\to C_n$ in $\elGr$.
 
 In our approach, the corollas will be replaced by circles with ports, which we call \emph{cells}, seen here:
 \begin{equation}\label{eqn.cells}
@@ -456,21 +456,21 @@ In our approach, the corollas will be replaced by circles with ports, which we c
 \end{equation}
 These cells will eventually have the same role as the boxes and circles labeled $f$, $g$, etc.\ in \cref{eqn.some_WDs}, and the stick will have the same role as the ports and wires.
 
-A presheaf $S\colon \el\op \to \SmSet$ can be roughly thought of as assigning preliminary data for a categorical structure $\cat{C}$. The set $S(\stick)$ will represent the objects of $\Ob(\cat{C})$ and for each $n\in\NN$, the set $S(C_n)$ will represent the morphisms of $\cat{C}$. The morphisms $c^n_i\colon(\stick)\to C_n$ will represent the domain/codomain of each morphism. To add a given sort of composition, one defines a monad on $\Psh(\el)$ whose algebras are to be the categorical structures with that sort of composition.
+A presheaf $S\colon \elGr\op \to \SmSet$ can be roughly thought of as assigning preliminary data for a categorical structure $\cat{C}$. The set $S(\stick)$ will represent the objects of $\Ob(\cat{C})$ and for each $n\in\NN$, the set $S(C_n)$ will represent the morphisms of $\cat{C}$. The morphisms $c^n_i\colon(\stick)\to C_n$ will represent the domain/codomain of each morphism. To add a given sort of composition, one defines a monad on $\Psh(\elGr)$ whose algebras are to be the categorical structures with that sort of composition.
 
-Making this precise is the goal of this paper, but we give a high-level view here. We will give a simple definition of what it means to equip an operad $\O$ with wiring structure: namely just a functor $\sigma\colon\O\to\Cospan$. We will use this to define both a small category $\El_\sigma$, of what we call elementary $\sigma$-graphs, together with a monad on $\Psh(\El_\sigma)$. Algebras on this monad will be categories that can interpret morphisms in $\O$---i.e.\ $\O$-shaped wiring diagrams---as composition laws.
+Making this precise is the goal of this paper, but we give a high-level view here. We will give a simple definition of what it means to equip an operad $\O$ with wiring structure: namely just a functor $\sigma\colon\O\to\Cospan$. We will use this to define both a small category $\el_\sigma$, of what we call elementary $\sigma$-graphs, together with a monad on $\Psh(\el_\sigma)$. Algebras on this monad will be categories that can interpret morphisms in $\O$---i.e.\ $\O$-shaped wiring diagrams---as composition laws.
 
 
 %
 % The stick graph is equipped with a non-trivial automorphism $\tau$ satisfying $\tau^2 = \id_{\stick}$. %, that changes the orientation of $(\stick)$. 
-% Further, $\el$ contains all isomorphisms of corollas and for each $n$-corolla $\cc$, there are $2n$ morphisms $(\stick) \to \cc$ that can be pictured as inserting $ \stick$ into a leg of $\cc$ ``in either $\tau$-direction''. %To each finite set $X$, we may associate a corolla whose legs are labelled by $X$, and it is helpful to think of $\el $ as the groupoid of finite sets and isomorphisms, together with the extra object $ (\stick)$ and the morphisms with $(\stick)$ as their source.
+% Further, $\elGr$ contains all isomorphisms of corollas and for each $n$-corolla $\cc$, there are $2n$ morphisms $(\stick) \to \cc$ that can be pictured as inserting $ \stick$ into a leg of $\cc$ ``in either $\tau$-direction''. %To each finite set $X$, we may associate a corolla whose legs are labelled by $X$, and it is helpful to think of $\elGr $ as the groupoid of finite sets and isomorphisms, together with the extra object $ (\stick)$ and the morphisms with $(\stick)$ as their source.
  
 
 %
-%of $\el$ then consists of a set $S(\cc)$ for corolla $\cc$, together with the obvious symmetric group actions, and a set of \emph{types} (elsewhere called \emph{colours} or \emph{objects}) $\Lambda = S(\stick)$ equipped with an involution. % $ \omega = S(\tau)$. 
+%of $\elGr$ then consists of a set $S(\cc)$ for corolla $\cc$, together with the obvious symmetric group actions, and a set of \emph{types} (elsewhere called \emph{colours} or \emph{objects}) $\Lambda = S(\stick)$ equipped with an involution. % $ \omega = S(\tau)$. 
 %For each leg of a corolla $\cc$, there are a pair of projections $ S(\cc) \to \Lambda$ that ``commute with the involution''.% and the image of each such pair corresponds to an orbit of $\omega$ in $\Lambda$.
 %
-%We can assemble a finite graph $\g$ with vertex set $V$ from a $V$-indexed set of corollas $\{\cc_v\}_{v \in V}$  ``glued together'' by stick graphs corresponding to the edges of $\g$. This gives a way of associating a unique subcategory $\esG \subset \el$ to any graph $\g$. Then for any graph $\g$, we may define \[
+%We can assemble a finite graph $\g$ with vertex set $V$ from a $V$-indexed set of corollas $\{\cc_v\}_{v \in V}$  ``glued together'' by stick graphs corresponding to the edges of $\g$. This gives a way of associating a unique subcategory $\esG \subset \elGr$ to any graph $\g$. Then for any graph $\g$, we may define \[
 %S(\g) : = lim_{\cc \in \esG} S(\cc).\]
 %Informally, $S(\g)$ is the set of ``decorations of $\g$ by $S$''. Each vertex $v$ of $ \g$ is decorated by an element of $\phi_v \in S(\cc_v)$ and, by construction, each edge of $\g$ is decorated by a type in $ \Lambda$ that is suitably ``compatible'' with each $\phi_v$ under the projections $S(\cc_v) \to \Lambda$.
 %
@@ -478,11 +478,11 @@ Making this precise is the goal of this paper, but we give a high-level view her
 %
 %Crucially for this paper, the object or type-labelling on the edges of a graph, just as the ``morphism or operation-labelling'' on the vertices, is simply part of the data of the presheaf. 
 
-%The intention of \cite{Joyal.Kock} was to construct so-called \emph{Compact symmetric multicategories (CSMs)} as algebras for a monad defined on the category of presheaves on $\el$. Roughly, CSMs can be thought of as coloured modular operads \cite{}, and they generalise small compact closed categories \cite{}, as well as coloured wheeled properads \cite{}. It should be mentioned that the monad construction in \cite{Joyal.Kock} does not admit a well-defined multiplication. This is rectified in \cite{Raynor}. In \cite{}, an analogue construction for (non-wheeled) properads is presented, and it is clear how these methods may be further modified to handle other operad-types including (wheeled) PROPs \cite{} and (cyclic) operads \cite{}. 
+%The intention of \cite{Joyal.Kock} was to construct so-called \emph{Compact symmetric multicategories (CSMs)} as algebras for a monad defined on the category of presheaves on $\elGr$. Roughly, CSMs can be thought of as coloured modular operads \cite{}, and they generalise small compact closed categories \cite{}, as well as coloured wheeled properads \cite{}. It should be mentioned that the monad construction in \cite{Joyal.Kock} does not admit a well-defined multiplication. This is rectified in \cite{Raynor}. In \cite{}, an analogue construction for (non-wheeled) properads is presented, and it is clear how these methods may be further modified to handle other operad-types including (wheeled) PROPs \cite{} and (cyclic) operads \cite{}. 
 %
 %\stodo[inline]{Add references.}
 %
-%For the purposes of this article, the important point is that the monad for CSMs is constructed by evaluating $\el$ presheaves on graphs, as described above. CSMs are precisely those presheaves $S$ on $\el$ such that for any decoration of a connected graph $\g$ by $S$, there is a unique rule for ``collapsing'' the edges of $\g$ to get a single element (operation) in $S$. 
+%For the purposes of this article, the important point is that the monad for CSMs is constructed by evaluating $\elGr$ presheaves on graphs, as described above. CSMs are precisely those presheaves $S$ on $\elGr$ such that for any decoration of a connected graph $\g$ by $S$, there is a unique rule for ``collapsing'' the edges of $\g$ to get a single element (operation) in $S$. 
 %  In particular, the categorical structures generalised by CSMs may be described by a single monad that deals with both the operations and the types at the same time. Furthermore, using the obvious modifications to the (elementary) graph category we may construct monads describing the other operad-like structures mentioned above, without having to worry about the particular set of types.
 
 %---- Section ----%
@@ -510,9 +510,11 @@ What we call types in \cref{def.operad} are often called colors or objects. What
 \todo[inline]{Do we use the symmetry in the proof? Can we drop it?}
 
 \begin{remark}\label{rem.mon_cat_operad_blur}
-To any monoidal category $(\cat{M},I,\otimes)$ we can associate an operad $\OO_\cat{M}$, called the \emph{operad underlying $\cat{M}$}: it has $\Typ(\OO_\cat{M})\coloneqq\Ob(\cat{O})$ and operations $\OO_{\cat{M}}(x_1,\ldots,x_k;y)\coloneqq\cat{M}(x_1\otimes\cdots\otimes x_k,y)$; see \cite{Leinster:2004a}. This is part of a functor $U\colon\Cat{MonCatLax}\to\Cat{Opd}$, from the category of monoidal categories and lax monoidal functors to the category of operads and operad functors, and this functor is fully faithful. Thus we often blur the distinction between a monoidal category and its underlying operad
+To any monoidal category $(\cat{M},I,\otimes)$ we can associate an operad $\OO_\cat{M}$, called the \emph{operad underlying $\cat{M}$}: it has $\Typ(\OO_\cat{M})\coloneqq\Ob(\cat{O})$ and operations $\OO_{\cat{M}}(x_1,\ldots,x_k;y)\coloneqq\cat{M}(x_1\otimes\cdots\otimes x_k,y)$; see \cite{Leinster:2004a}. This is part of a functor $U\colon\Cat{MonCatLax}\to\Cat{Opd}$, from the category of monoidal categories and lax monoidal functors to the category of operads and operad functors, and this functor is fully faithful. Thus we often blur the distinction between a monoidal category and its underlying operad.
 \end{remark}
 
+In this work we will use the symbol $\stick$ or $(\stick)$ to denote an object that is intuitively a port; to be clear, these symbols are always meant to denote the same thing.%
+\footnote{The reason we do not choose one or the other is that $\stick$ can be a bit ``lonely'' all by itself, but writing $\{(\stick)\}$ for the singleton set is too heavy.}
 
 %-------- Chapter --------%
 \chapter{Wiring operads and associated categorical structures}
@@ -728,11 +730,21 @@ Composing the corresponding cospans with the one above is achieved by way of a p
 % Subsection %
 \subsection{The elementary category and its presheaves}
 
-In this section, we define a category that plays the same role as $\el$ plays in the Joyal-Kock approach, discussed in \cref{***}.
+In this section, we define a category that plays the same role as $\elGr$ plays in the Joyal-Kock approach, discussed in \cref{sec.JK_remedy}.
 
 \begin{definition}
-Define the elementary category $\El$
+Define the elementary category $\el$ to have objects $\{\stick\}\sqcup\NN$ and morphisms given by
+\[
+  \el(x,y)\coloneqq
+  \begin{cases}
+  	\{c^n_i\mid 1\leq i\leq n\}&\tn{ if }x=(\stick), y=n\\
+		\{\id_x\}&\tn{ if }x=y\\
+		\varnothing&\tn{ otherwise}
+  \end{cases}
+\]
+We refer to $(\stick)$ as the \emph{port shape} and to the objects $n$ as the \emph{$n$-port cell}.
 \end{definition}
+Thus there are three morphisms $c^2_1$ and $c^2_2$ of the form $(\stick)\to 2$, one morphism $2\to 2$, no morphisms $2\to 3$, and no morphisms $2\to(\stick)$. Intuitively, the maps simply include the port shape into the various ports of each cell.
 
 
 %-------- Chapter --------%
