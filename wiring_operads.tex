@@ -563,7 +563,7 @@ A $k$-ary morphism $c\colon(m_1,\ldots,m_k)\to n$ in $\Cospan$ is a pair of func
 We draw it by putting a cell with $n$-ports on the outside, $k$-many cells with ports $m_1,\ldots,m_k$ on the inside, $\apex{c}$-many connection nodes in the space between, and connecting the various ports to the connection nodes according to the functions $\lleg\cmap$ and $\rleg\cmap$.
 
 \begin{example}
-The wiring diagram with components $a$, $b$, and $c$, shown to the left below corresponds to the cospan $(a,b,c)\to 3$, where $a=4$, $b=2$, and $c=3$, as shown to the right
+The wiring diagram with three internal cells, shown to the left below, corresponds to the $3$-ary morphism $(4,2,3)\to 6$ in $\Cospan$, shown to the right:
 \[
 \begin{tikzpicture}[penetration=0, unoriented WD, spacing=20pt, pack size=28pt]
   \begin{scope}[font=\small]
@@ -614,7 +614,7 @@ The wiring diagram with components $a$, $b$, and $c$, shown to the left below co
 			node[pos=1.15] {$5$}
 			(outer.-30);
 	\end{scope}
-	\begin{scope}[font=\scriptsize,x=1em, decoration={brace, amplitude=5pt},y=3ex]
+	\begin{scope}[font=\scriptsize,x=1em, decoration={brace, amplitude=4pt},y=3ex]
 		\node[link, label=$1$, below right=0 and 10 of b.90] (a1) {};
 		\node[link, label=$2$, right=1 of a1] (a2) {};
 		\node[link, label=$3$, right=1 of a2] (a3) {};
@@ -624,9 +624,9 @@ The wiring diagram with components $a$, $b$, and $c$, shown to the left below co
 		\node[link, label=$1$, right=1 of b2] (c1) {};
 		\node[link, label=$2$, right=1 of c1] (c2) {};
 		\node[link, label=$3$, right=1 of c2] (c3) {};
-		\draw[decorate] ($(a1.north)+(-2pt,10pt)$) to node[above=8pt] {$a$} ($(a4.north)+(2pt,10pt)$);
-		\draw[decorate] ($(b1.north)+(-2pt,10pt)$) to node[above=8pt] {$b$} ($(b2.north)+(2pt,10pt)$);
-		\draw[decorate] ($(c1.north)+(-2pt,10pt)$) to node[above=8pt] {$c$} ($(c3.north)+(2pt,10pt)$);
+		\draw[decorate] ($(a1.north)+(-2pt,10pt)$) to node[above=6pt] {$a$} ($(a4.north)+(2pt,10pt)$);
+		\draw[decorate] ($(b1.north)+(-2pt,10pt)$) to node[above=6pt] {$b$} ($(b2.north)+(2pt,10pt)$);
+		\draw[decorate] ($(c1.north)+(-2pt,10pt)$) to node[above=6pt] {$c$} ($(c3.north)+(2pt,10pt)$);
 		\node[link, label=$s$] at ($(a1)!.5!(a2)+(0,-2.5)$) (s) {};
 		\node[link, label=$t$, right=1 of s] (t) {};
 		\node[link, label=$u$, right=1 of t] (u) {};
@@ -641,6 +641,7 @@ The wiring diagram with components $a$, $b$, and $c$, shown to the left below co
 		\node[link, label={[below]:$4$}, right=1 of outer3] (outer4) {};
 		\node[link, label={[below]:$5$}, right=1 of outer4] (outer5) {};
 		\node[link, label={[below]:$6$}, right=1 of outer5] (outer6) {};
+		\draw[decorate] ($(outer6.south)+(2pt,-12pt)$) to node[below=6pt] {outer} ($(outer1.south)+(-2pt,-12pt)$);
 	\end{scope}
 	\begin{scope}[->, shorten >=8pt, thin, in=90, out=-90]
   	\draw (a1) to (u);
